@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.presentation.component.model
+package com.micudasoftware.planwise.presentation.agenda.component.model
 
 import androidx.compose.ui.graphics.Color
 

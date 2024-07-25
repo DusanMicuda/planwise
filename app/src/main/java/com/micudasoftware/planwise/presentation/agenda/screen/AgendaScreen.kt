@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.presentation.screen
+package com.micudasoftware.planwise.presentation.agenda.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,13 +32,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.micudasoftware.planwise.presentation.common.ComposeViewModel
 import com.micudasoftware.planwise.presentation.common.PreviewViewModel
-import com.micudasoftware.planwise.presentation.component.AgendaDay
-import com.micudasoftware.planwise.presentation.component.AgendaItem
-import com.micudasoftware.planwise.presentation.component.DropDownButton
-import com.micudasoftware.planwise.presentation.component.model.AgendaDayModel
-import com.micudasoftware.planwise.presentation.component.model.AgendaItemModel
-import com.micudasoftware.planwise.presentation.viewmodel.AgendaScreenEvent
-import com.micudasoftware.planwise.presentation.viewmodel.AgendaScreenState
+import com.micudasoftware.planwise.presentation.agenda.component.AgendaDay
+import com.micudasoftware.planwise.presentation.agenda.component.AgendaItem
+import com.micudasoftware.planwise.presentation.agenda.component.DropDownButton
+import com.micudasoftware.planwise.presentation.agenda.component.model.AgendaDayModel
+import com.micudasoftware.planwise.presentation.agenda.component.model.AgendaItemModel
+import com.micudasoftware.planwise.presentation.agenda.viewmodel.AgendaScreenEvent
+import com.micudasoftware.planwise.presentation.agenda.viewmodel.AgendaScreenState
 import com.micudasoftware.planwise.ui.theme.PlanWiseTheme
 
 /**

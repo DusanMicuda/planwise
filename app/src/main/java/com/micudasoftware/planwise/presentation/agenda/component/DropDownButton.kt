@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.presentation.component
+package com.micudasoftware.planwise.presentation.agenda.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons

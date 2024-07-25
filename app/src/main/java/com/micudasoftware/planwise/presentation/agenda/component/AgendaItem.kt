@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.presentation.component
+package com.micudasoftware.planwise.presentation.agenda.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.micudasoftware.planwise.R
-import com.micudasoftware.planwise.presentation.component.model.AgendaItemModel
+import com.micudasoftware.planwise.presentation.agenda.component.model.AgendaItemModel
 import com.micudasoftware.planwise.presentation.common.isColorDark
 import com.micudasoftware.planwise.ui.theme.PlanWiseTheme
 

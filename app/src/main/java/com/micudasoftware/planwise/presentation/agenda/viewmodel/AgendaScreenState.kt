@@ -1,8 +1,8 @@
-package com.micudasoftware.planwise.presentation.viewmodel
+package com.micudasoftware.planwise.presentation.agenda.viewmodel
 
 import com.micudasoftware.planwise.presentation.common.UIState
-import com.micudasoftware.planwise.presentation.component.model.AgendaDayModel
-import com.micudasoftware.planwise.presentation.component.model.AgendaItemModel
+import com.micudasoftware.planwise.presentation.agenda.component.model.AgendaDayModel
+import com.micudasoftware.planwise.presentation.agenda.component.model.AgendaItemModel
 
 /**
  * State for the Agenda screen.

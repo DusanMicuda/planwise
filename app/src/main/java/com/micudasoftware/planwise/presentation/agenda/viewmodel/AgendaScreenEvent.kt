@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.presentation.viewmodel
+package com.micudasoftware.planwise.presentation.agenda.viewmodel
 
 import com.micudasoftware.planwise.presentation.common.UIEvent
 

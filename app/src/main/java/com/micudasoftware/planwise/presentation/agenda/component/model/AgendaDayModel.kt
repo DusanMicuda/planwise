@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.presentation.component.model
+package com.micudasoftware.planwise.presentation.agenda.component.model
 
 data class AgendaDayModel(
     val dayOfWeek: String,
