@@ -28,11 +28,23 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 18.sp,
     ),
+    bodyLarge = TextStyle(
+        fontFamily = fontFamilyInter,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+    ),
     titleMedium = TextStyle(
         fontFamily = fontFamilyInter,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         lineHeight = 16.sp,
+    ),
+    titleLarge = TextStyle(
+        fontFamily = fontFamilyInter,
+        fontWeight = FontWeight.Bold,
+        fontSize = 26.sp,
+        lineHeight = 25.sp,
     ),
     labelMedium = TextStyle(
         fontFamily = fontFamilyInter,

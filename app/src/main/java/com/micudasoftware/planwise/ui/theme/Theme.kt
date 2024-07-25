@@ -1,6 +1,5 @@
 package com.micudasoftware.planwise.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.lightColorScheme
@@ -11,6 +10,7 @@ private val LightColorScheme = lightColorScheme(
     primary = Black,
     secondary = Orange,
     background = White,
+    outlineVariant = ExtraLightGray
     /* Other default colors to override
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,

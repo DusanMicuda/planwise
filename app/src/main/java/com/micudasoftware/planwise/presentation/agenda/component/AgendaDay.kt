@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.micudasoftware.planwise.presentation.agenda.component.model.AgendaDayModel
+import com.micudasoftware.planwise.ui.theme.Gray
 import com.micudasoftware.planwise.ui.theme.PlanWiseTheme
 
 /**
@@ -44,7 +45,7 @@ fun AgendaDay(
         Text(
             text = model.dayOfWeek,
             style = MaterialTheme.typography.labelSmall,
-            color = if (model.selected) Color.Unspecified else Color(0xFFA9B4BE)
+            color = if (model.selected) Color.Unspecified else Gray
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Text(text = model.dayOfMonth.toString(), style = MaterialTheme.typography.labelMedium)
