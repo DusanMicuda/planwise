@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.micudasoftware.planwise.presentation.taskdetail.components.model.CategoryModel
 import com.micudasoftware.planwise.presentation.common.ComposeViewModel
 import com.micudasoftware.planwise.presentation.common.PreviewViewModel
@@ -48,7 +49,7 @@ import com.micudasoftware.planwise.ui.theme.PlanWiseTheme
 fun TaskDetailScreen(
     viewModel: ComposeViewModel<TaskDetailState, TaskDetailEvent>
 ) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

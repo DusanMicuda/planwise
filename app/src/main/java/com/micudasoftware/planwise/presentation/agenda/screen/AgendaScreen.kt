@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.micudasoftware.planwise.presentation.common.ComposeViewModel
 import com.micudasoftware.planwise.presentation.common.PreviewViewModel
 import com.micudasoftware.planwise.presentation.agenda.component.AgendaDay
@@ -50,7 +51,7 @@ import com.micudasoftware.planwise.ui.theme.PlanWiseTheme
 fun AgendaScreen(
     viewModel: ComposeViewModel<AgendaScreenState, AgendaScreenEvent>
 ) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
