@@ -1,6 +1,6 @@
-package com.micudasoftware.planwise.data.repository.model
+package com.micudasoftware.data.repository.model
 
-import com.micudasoftware.planwise.data.database.TaskEntity
+import com.micudasoftware.data.database.TaskEntity
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId

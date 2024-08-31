@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.data.database
+package com.micudasoftware.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

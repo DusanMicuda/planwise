@@ -1,6 +1,6 @@
-package com.micudasoftware.planwise.data.repository.model
+package com.micudasoftware.data.repository.model
 
-import com.micudasoftware.planwise.data.database.TaskCategoryEntity
+import com.micudasoftware.data.database.TaskCategoryEntity
 
 /**
  * Represents a task category in the repository layer.

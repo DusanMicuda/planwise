@@ -1,7 +1,7 @@
-package com.micudasoftware.planwise.data.repository
+package com.micudasoftware.data.repository
 
-import com.micudasoftware.planwise.data.repository.model.Task
-import com.micudasoftware.planwise.data.repository.model.TaskCategory
+import com.micudasoftware.data.repository.model.Task
+import com.micudasoftware.data.repository.model.TaskCategory
 import java.time.LocalDate
 
 /**

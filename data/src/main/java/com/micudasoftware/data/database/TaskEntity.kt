@@ -1,4 +1,4 @@
-package com.micudasoftware.planwise.data.database
+package com.micudasoftware.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

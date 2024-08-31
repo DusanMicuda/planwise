@@ -1,10 +1,10 @@
-package com.micudasoftware.planwise.data.di
+package com.micudasoftware.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.micudasoftware.planwise.data.database.TasksDatabase
-import com.micudasoftware.planwise.data.repository.TasksRepository
-import com.micudasoftware.planwise.data.repository.TasksRepositoryImpl
+import com.micudasoftware.data.database.TasksDatabase
+import com.micudasoftware.data.repository.TasksRepository
+import com.micudasoftware.data.repository.TasksRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
