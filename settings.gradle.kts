@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "Plan Wise"
 include(":app")
 include(":data")
+include(":presentation")
