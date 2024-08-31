@@ -13,7 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class DataModule {
+class DataModule {
 
     @Provides
     internal fun provideTasksDatabase(@ApplicationContext context: Context): TasksDatabase =

@@ -1,4 +1,4 @@
-package com.micudasoftware
+package com.micudasoftware.planwise
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

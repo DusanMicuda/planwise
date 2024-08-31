@@ -2,11 +2,13 @@ package com.micudasoftware.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 /**
  * The Room database for storing tasks.
  */
 @Database(entities = [TaskEntity::class, TaskCategoryEntity::class], version = 1)
+@TypeConverters(RemindersTypeConverter::class)
 internal abstract class TasksDatabase: RoomDatabase() {
 
     /**
