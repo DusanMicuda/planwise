@@ -7,13 +7,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
@@ -27,6 +31,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,12 +50,18 @@ import com.micudasoftware.presentation.taskdetail.components.ReminderRow
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import com.micudasoftware.presentation.common.theme.DarkGray
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
+import com.micudasoftware.presentation.taskdetail.components.DatePickerDialog
+import com.micudasoftware.presentation.taskdetail.components.TimePickerDialog
+import com.micudasoftware.presentation.taskdetail.components.model.DatePickerDialogState
+import com.micudasoftware.presentation.taskdetail.components.model.TimePickerDialogState
 
 @Composable
 fun TaskDetailScreen(
     viewModel: ComposeViewModel<TaskDetailState, TaskDetailEvent>
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    var timePickerState: TimePickerDialogState? by remember { mutableStateOf(null) }
+    var datePickerState: DatePickerDialogState? by remember { mutableStateOf(null) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -59,19 +72,32 @@ fun TaskDetailScreen(
                     .background(color = MaterialTheme.colorScheme.primary),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    modifier = Modifier.padding(8.dp),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        contentDescription = "Close"
-                    )
+                if (viewState.isEditable) {
+                    IconButton(
+                        modifier = Modifier.padding(8.dp),
+                        onClick = { viewModel.onEvent(TaskDetailEvent.NavigateBack) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            contentDescription = "Close"
+                        )
+                    }
+                } else {
+                    IconButton(
+                        modifier = Modifier.padding(8.dp),
+                        onClick = { viewModel.onEvent(TaskDetailEvent.CancelEdit) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            contentDescription = "Back"
+                        )
+                    }
                 }
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = viewState.date,
+                    text = viewState.startDateTime.formattedDateLong,
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelMedium
@@ -79,7 +105,7 @@ fun TaskDetailScreen(
                 if (viewState.isEditable) {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { /*TODO*/ }
+                        onClick = { viewModel.onEvent(TaskDetailEvent.EditTask) }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Done,
@@ -90,7 +116,7 @@ fun TaskDetailScreen(
                 } else {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { /*TODO*/ }
+                        onClick = { viewModel.onEvent(TaskDetailEvent.SaveTask) }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Edit,
@@ -118,7 +144,10 @@ fun TaskDetailScreen(
             ) {
                 Row(
                     modifier = Modifier
-                        .clickable(enabled = viewState.isEditable, onClick = { /*TODO*/ })
+                        .clickable(
+                            enabled = viewState.isEditable,
+                            onClick = { /*TODO*/ }
+                        )
                         .padding(top = 24.dp, bottom = 8.dp, horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -147,55 +176,39 @@ fun TaskDetailScreen(
                     }
                 }
                 Row(
-                    modifier = Modifier
-                        .clickable(enabled = viewState.isEditable, onClick = { /*TODO*/ })
-                        .padding(vertical = 8.dp, end = 16.dp),
+                    modifier = Modifier.padding(vertical = 8.dp, end = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(
-                        checked = false,
-                        onCheckedChange = {},
+                        checked = viewState.isCompleted,
+                        onCheckedChange = { viewModel.onEvent(TaskDetailEvent.ToggleDoneState(it)) },
                         colors = CheckboxDefaults.colors(
                             checkedColor = Color.Black,
                             uncheckedColor = Color.Black
                         )
                     )
-                    Text(
+                    BasicTextField(
                         modifier = Modifier.weight(1f),
-                        text = viewState.title,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color.Black
+                        value = viewState.title,
+                        onValueChange = { viewModel.onEvent(TaskDetailEvent.ChangeTitle(it)) },
+                        textStyle = MaterialTheme.typography.titleLarge,
+                        singleLine = true,
+                        readOnly = !viewState.isEditable
                     )
-                    if (viewState.isEditable) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "Edit"
-                        )
-                    }
                 }
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 )
-                Row(
-                    modifier = Modifier
-                        .clickable(enabled = viewState.isEditable, onClick = { /*TODO*/ })
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = viewState.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                    if (viewState.isEditable) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "Edit"
-                        )
-                    }
-                }
+                BasicTextField(
+                    modifier = Modifier.padding(16.dp),
+                    value = viewState.description,
+                    onValueChange = { viewModel.onEvent(TaskDetailEvent.ChangeDescription(it)) },
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    minLines = 4,
+                    readOnly = !viewState.isEditable
+                )
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -204,11 +217,21 @@ fun TaskDetailScreen(
                 DateTimeRow(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     title = "From",
-                    time = "08:00",
-                    date = "Jul 12, 2022",
+                    time = viewState.startDateTime.formattedTime,
+                    date = viewState.startDateTime.formattedDateShort,
                     isEditable = viewState.isEditable,
-                    onEditTime = { /*TODO*/ },
-                    onEditDate = { /*TODO*/ },
+                    onEditTime = {
+                        timePickerState = TimePickerDialogState(
+                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeStartTime(it)) },
+                            onDismiss = { timePickerState = null }
+                        )
+                    },
+                    onEditDate = {
+                        datePickerState = DatePickerDialogState(
+                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeStartDate(it)) },
+                            onDismiss = { datePickerState = null }
+                        )
+                    },
                 )
                 HorizontalDivider(
                     modifier = Modifier
@@ -218,11 +241,21 @@ fun TaskDetailScreen(
                 DateTimeRow(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     title = "To",
-                    time = "08:30",
-                    date = "Jul 12, 2022",
+                    time = viewState.endDateTime.formattedTime,
+                    date = viewState.endDateTime.formattedDateShort,
                     isEditable = viewState.isEditable,
-                    onEditTime = { /*TODO*/ },
-                    onEditDate = { /*TODO*/ },
+                    onEditTime = {
+                        timePickerState = TimePickerDialogState(
+                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeEndTime(it)) },
+                            onDismiss = { timePickerState = null }
+                        )
+                    },
+                    onEditDate = {
+                        datePickerState = DatePickerDialogState(
+                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeEndDate(it)) },
+                            onDismiss = { datePickerState = null }
+                        )
+                    },
 
                 )
                 HorizontalDivider(
@@ -230,20 +263,35 @@ fun TaskDetailScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 )
-                Text(
-                    modifier = Modifier.padding(top = 24.dp, horizontal = 16.dp),
-                    text = "Reminders",
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                LazyColumn(
-                    modifier = Modifier.padding(top = 16.dp),
+                Row(
+                    modifier = Modifier
+                        .padding(top = 16.dp, horizontal = 16.dp)
+                        .heightIn(min = 48.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Reminders",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    if (viewState.isEditable) {
+                        IconButton(
+                            onClick = { /*TODO*/ }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Add"
+                            )
+                        }
+                    }
+                }
+                LazyColumn {
                     items(viewState.reminders) { reminder ->
                         ReminderRow(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             title = reminder.title,
                             isEditable = viewState.isEditable,
-                            onClick = { /*TODO*/ }
+                            onRemove = { viewModel.onEvent(TaskDetailEvent.RemoveReminder(reminder)) }
                         )
                     }
                 }
@@ -251,7 +299,7 @@ fun TaskDetailScreen(
                     modifier = Modifier.weight(1f),
                     contentAlignment = Alignment.BottomCenter
                 ) {
-                    Box(modifier = Modifier.clickable(onClick = { /*TODO*/ })) {
+                    Box(modifier = Modifier.clickable(onClick = { viewModel.onEvent(TaskDetailEvent.DeleteTask) })) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
@@ -272,6 +320,13 @@ fun TaskDetailScreen(
             }
         }
     }
+    timePickerState?.let {
+        TimePickerDialog(state = it)
+    }
+
+    datePickerState?.let {
+        DatePickerDialog(state = it)
+    }
 }
 
 /**
@@ -285,8 +340,8 @@ private fun TaskDetailScreenPreview() {
             viewModel = PreviewViewModel(
                 TaskDetailState(
                     isEditable = false,
-                    date = "01 MARCH 2022",
                     category = CategoryModel(
+                        id = 0,
                         name = "Work",
                         color = Color.Green
                     ),
@@ -317,8 +372,8 @@ private fun TaskDetailScreenEditablePreview() {
             viewModel = PreviewViewModel(
                 TaskDetailState(
                     isEditable = true,
-                    date = "01 MARCH 2022",
                     category = CategoryModel(
+                        id = 0,
                         name = "Work",
                         color = Color.Green
                     ),

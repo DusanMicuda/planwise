@@ -1,17 +1,19 @@
 package com.micudasoftware.presentation.taskdetail.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,26 +30,26 @@ import com.micudasoftware.presentation.common.theme.PlanWiseTheme
  *
  * @param title The title of the reminder.
  * @param isEditable Whether the reminder is editable.
- * @param onClick The action to perform when the reminder is clicked.
+ * @param onRemove The action to perform when the remove button is clicked.
  * @param modifier The modifier to apply to this layout.
  */
 @Composable
 fun ReminderRow(
     title: String,
     isEditable: Boolean,
-    onClick: () -> Unit,
+    onRemove: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(enabled = isEditable, onClick = onClick)
             .then(modifier),
+        verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
+                .heightIn(min = 56.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -67,16 +69,18 @@ fun ReminderRow(
                 style = MaterialTheme.typography.bodyLarge,
             )
             if (isEditable) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Edit"
-                )
+                IconButton(onClick = onRemove) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        tint = MaterialTheme.colorScheme.error,
+                        contentDescription = "Remove"
+                    )
+                }
             }
         }
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp)
         )
     }
 }
@@ -90,8 +94,23 @@ private fun ReminderRowPreview() {
     PlanWiseTheme {
         ReminderRow(
             title = "Remind me to buy milk",
+            isEditable = false,
+            onRemove = {}
+        )
+    }
+}
+
+/**
+ * Preview for [ReminderRow] when it is editable.
+ */
+@Preview
+@Composable
+private fun ReminderRowEditablePreview() {
+    PlanWiseTheme {
+        ReminderRow(
+            title = "Remind me to buy milk",
             isEditable = true,
-            onClick = {}
+            onRemove = {}
         )
     }
 }
