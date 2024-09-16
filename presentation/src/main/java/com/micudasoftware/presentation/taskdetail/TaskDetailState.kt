@@ -29,7 +29,12 @@ data class TaskDetailState(
             category = categoryModel,
             startDateTime = DateTimeModel(task.startDateTime),
             endDateTime = DateTimeModel(task.endDateTime),
-            reminders = task.reminders.map { ReminderModel(it.toString()) }, // Todo: Format the reminders
+            reminders = task.reminders.map {
+                ReminderModel.fromDateTimeDifference(
+                    startDateTime = task.startDateTime,
+                    reminderDateTime = it
+                )
+            },
             isEditable = false,
         )
     }
@@ -42,6 +47,6 @@ data class TaskDetailState(
         startDateTime = startDateTime.offsetDateTime,
         endDateTime = endDateTime.offsetDateTime,
         isCompleted = isCompleted,
-        reminders = reminders.map { OffsetDateTime.now() }, // Todo: Format the reminders
+        reminders = reminders.map { it.toOffsetDateTime(startDateTime.offsetDateTime) },
     )
 }

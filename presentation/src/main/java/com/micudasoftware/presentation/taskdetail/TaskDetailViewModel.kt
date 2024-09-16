@@ -36,7 +36,8 @@ class TaskDetailViewModel @Inject constructor(
             is TaskDetailEvent.ChangeStartDate -> changeStartDate(event.date)
             is TaskDetailEvent.ChangeEndTime -> changeEndTime(event.time)
             is TaskDetailEvent.ChangeEndDate -> changeEndDate(event.date)
-            is TaskDetailEvent.RemoveReminder -> removeReminder(event.reminderId)
+            is TaskDetailEvent.AddReminder -> addReminder(event.reminder)
+            is TaskDetailEvent.RemoveReminder -> removeReminder(event.reminder)
         }
     }
 
@@ -93,6 +94,12 @@ class TaskDetailViewModel @Inject constructor(
 
     private fun changeEndDate(date: OffsetDateTime) {
         _viewState.update { it.copy(endDateTime = it.endDateTime.copy(date = date)) }
+    }
+
+    private fun addReminder(reminder: ReminderModel) {
+        _viewState.update { state ->
+            state.copy(reminders = state.reminders + reminder)
+        }
     }
 
     private fun removeReminder(reminder: ReminderModel) {

@@ -50,10 +50,13 @@ import com.micudasoftware.presentation.taskdetail.components.ReminderRow
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import com.micudasoftware.presentation.common.theme.DarkGray
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
+import com.micudasoftware.presentation.taskdetail.components.CustomReminderPickerDialog
 import com.micudasoftware.presentation.taskdetail.components.DatePickerDialog
+import com.micudasoftware.presentation.taskdetail.components.ReminderPickerDialog
 import com.micudasoftware.presentation.taskdetail.components.TimePickerDialog
 import com.micudasoftware.presentation.taskdetail.components.model.DatePickerDialogState
 import com.micudasoftware.presentation.taskdetail.components.model.TimePickerDialogState
+import java.time.temporal.ChronoUnit
 
 @Composable
 fun TaskDetailScreen(
@@ -62,6 +65,8 @@ fun TaskDetailScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     var timePickerState: TimePickerDialogState? by remember { mutableStateOf(null) }
     var datePickerState: DatePickerDialogState? by remember { mutableStateOf(null) }
+    var showReminderPickerDialog by remember { mutableStateOf(false) }
+    var showCustomReminderPickerDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -276,7 +281,7 @@ fun TaskDetailScreen(
                     )
                     if (viewState.isEditable) {
                         IconButton(
-                            onClick = { /*TODO*/ }
+                            onClick = { showReminderPickerDialog = true },
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
@@ -327,6 +332,30 @@ fun TaskDetailScreen(
     datePickerState?.let {
         DatePickerDialog(state = it)
     }
+
+    if (showReminderPickerDialog) {
+        ReminderPickerDialog(
+            onConfirm = {
+                viewModel.onEvent(TaskDetailEvent.AddReminder(it))
+                showReminderPickerDialog = false
+            },
+            onCustom = {
+                showReminderPickerDialog = false
+                showCustomReminderPickerDialog = true
+            },
+            onDismiss = { showReminderPickerDialog = false }
+        )
+    }
+
+    if (showCustomReminderPickerDialog) {
+        CustomReminderPickerDialog(
+            onConfirm = {
+                viewModel.onEvent(TaskDetailEvent.AddReminder(it))
+                showCustomReminderPickerDialog = false
+            },
+            onDismiss = { showCustomReminderPickerDialog = false }
+        )
+    }
 }
 
 /**
@@ -349,10 +378,12 @@ private fun TaskDetailScreenPreview() {
                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     reminders = listOf(
                         ReminderModel(
-                            title = "15 minutes before"
+                            value = 15,
+                            unit = ChronoUnit.MINUTES
                         ),
                         ReminderModel(
-                            title = "1 hour before"
+                            value = 1,
+                            unit = ChronoUnit.HOURS
                         ),
                     )
                 )
@@ -381,10 +412,12 @@ private fun TaskDetailScreenEditablePreview() {
                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     reminders = listOf(
                         ReminderModel(
-                            title = "15 minutes before"
+                            value = 15,
+                            unit = ChronoUnit.MINUTES
                         ),
                         ReminderModel(
-                            title = "1 hour before"
+                            value = 1,
+                            unit = ChronoUnit.HOURS
                         ),
                     )
                 )

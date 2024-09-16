@@ -31,5 +31,7 @@ sealed class TaskDetailEvent: UIEvent {
 
     data class ChangeEndDate(val date: OffsetDateTime): TaskDetailEvent()
 
-    data class RemoveReminder(val reminderId: ReminderModel): TaskDetailEvent()
+    data class AddReminder(val reminder: ReminderModel): TaskDetailEvent()
+
+    data class RemoveReminder(val reminder: ReminderModel): TaskDetailEvent()
 }
