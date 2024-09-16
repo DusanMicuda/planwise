@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
-import com.micudasoftware.presentation.taskdetail.components.model.CategoryModel
+import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 
 @Composable
 fun CategorySelectorDialog(

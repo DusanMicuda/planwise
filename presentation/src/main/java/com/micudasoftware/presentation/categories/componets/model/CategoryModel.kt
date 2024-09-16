@@ -1,4 +1,4 @@
-package com.micudasoftware.presentation.taskdetail.components.model
+package com.micudasoftware.presentation.categories.componets.model
 
 import androidx.compose.ui.graphics.Color
 
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
  * @param color The color of the category.
  */
 data class CategoryModel(
-    val id: Long,
+    val id: Long = 0,
     val name: String,
     val color: Color,
 )

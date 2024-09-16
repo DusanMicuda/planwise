@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.micudasoftware.data.repository.TasksRepository
 import com.micudasoftware.presentation.common.ComposeViewModel
-import com.micudasoftware.presentation.taskdetail.components.model.CategoryModel
+import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

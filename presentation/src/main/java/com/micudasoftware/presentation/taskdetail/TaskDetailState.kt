@@ -2,7 +2,7 @@ package com.micudasoftware.presentation.taskdetail
 
 import androidx.compose.ui.graphics.Color
 import com.micudasoftware.data.repository.model.Task
-import com.micudasoftware.presentation.taskdetail.components.model.CategoryModel
+import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.UIState
 import com.micudasoftware.presentation.taskdetail.components.model.DateTimeModel
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel

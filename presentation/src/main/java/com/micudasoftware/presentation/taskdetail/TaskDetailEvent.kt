@@ -1,7 +1,7 @@
 package com.micudasoftware.presentation.taskdetail
 
 import com.micudasoftware.presentation.common.UIEvent
-import com.micudasoftware.presentation.taskdetail.components.model.CategoryModel
+import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import java.time.OffsetDateTime
 import java.time.OffsetTime
