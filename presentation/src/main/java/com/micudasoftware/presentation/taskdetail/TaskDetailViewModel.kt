@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.micudasoftware.data.repository.TasksRepository
 import com.micudasoftware.presentation.common.ComposeViewModel
+import com.micudasoftware.presentation.taskdetail.components.model.CategoryModel
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +31,7 @@ class TaskDetailViewModel @Inject constructor(
             TaskDetailEvent.CancelEdit -> cancelEdit()
             TaskDetailEvent.NavigateBack -> TODO()
             is TaskDetailEvent.ToggleDoneState -> toggleDoneState(event.isDone)
+            is TaskDetailEvent.ChangeCategory -> changeCategory(event.category)
             is TaskDetailEvent.ChangeTitle -> changeTitle(event.title)
             is TaskDetailEvent.ChangeDescription -> changeDescription(event.description)
             is TaskDetailEvent.ChangeStartTime -> changeStartTime(event.time)
@@ -70,6 +72,10 @@ class TaskDetailViewModel @Inject constructor(
         viewModelScope.launch {
             repository.saveTask(_viewState.value.toTask())
         }
+    }
+
+    private fun changeCategory(category: CategoryModel) {
+        _viewState.update { it.copy(category = category) }
     }
 
     private fun changeTitle(title: String) {

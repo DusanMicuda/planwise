@@ -1,6 +1,7 @@
 package com.micudasoftware.presentation.taskdetail
 
 import com.micudasoftware.presentation.common.UIEvent
+import com.micudasoftware.presentation.taskdetail.components.model.CategoryModel
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import java.time.OffsetDateTime
 import java.time.OffsetTime
@@ -18,6 +19,8 @@ sealed class TaskDetailEvent: UIEvent {
     data object NavigateBack: TaskDetailEvent()
 
     data class ToggleDoneState(val isDone: Boolean): TaskDetailEvent()
+
+    data class ChangeCategory(val category: CategoryModel): TaskDetailEvent()
 
     data class ChangeTitle(val title: String): TaskDetailEvent()
 

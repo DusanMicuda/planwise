@@ -50,6 +50,7 @@ import com.micudasoftware.presentation.taskdetail.components.ReminderRow
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
 import com.micudasoftware.presentation.common.theme.DarkGray
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
+import com.micudasoftware.presentation.taskdetail.components.CategorySelectorDialog
 import com.micudasoftware.presentation.taskdetail.components.CustomReminderPickerDialog
 import com.micudasoftware.presentation.taskdetail.components.DatePickerDialog
 import com.micudasoftware.presentation.taskdetail.components.ReminderPickerDialog
@@ -67,6 +68,7 @@ fun TaskDetailScreen(
     var datePickerState: DatePickerDialogState? by remember { mutableStateOf(null) }
     var showReminderPickerDialog by remember { mutableStateOf(false) }
     var showCustomReminderPickerDialog by remember { mutableStateOf(false) }
+    var showCategorySelectorDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -151,7 +153,7 @@ fun TaskDetailScreen(
                     modifier = Modifier
                         .clickable(
                             enabled = viewState.isEditable,
-                            onClick = { /*TODO*/ }
+                            onClick = { showCategorySelectorDialog = true }
                         )
                         .padding(top = 24.dp, bottom = 8.dp, horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -354,6 +356,18 @@ fun TaskDetailScreen(
                 showCustomReminderPickerDialog = false
             },
             onDismiss = { showCustomReminderPickerDialog = false }
+        )
+    }
+
+    if (showCategorySelectorDialog) {
+        CategorySelectorDialog(
+            categories = viewState.categories,
+            onSelect = {
+                viewModel.onEvent(TaskDetailEvent.ChangeCategory(it))
+                showCategorySelectorDialog = false
+            },
+            onAddNew = { /*TODO*/ },
+            onDismiss = { showCategorySelectorDialog = false }
         )
     }
 }

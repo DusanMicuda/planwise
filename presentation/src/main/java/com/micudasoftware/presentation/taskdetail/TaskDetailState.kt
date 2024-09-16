@@ -13,6 +13,7 @@ data class TaskDetailState(
     val title: String = "",
     val description: String = "",
     val category: CategoryModel = CategoryModel(0, "", Color.White),
+    val categories: List<CategoryModel> = emptyList(),
     val startDateTime: DateTimeModel = DateTimeModel(OffsetDateTime.now()),
     val endDateTime: DateTimeModel = DateTimeModel(OffsetDateTime.now()),
     val isCompleted : Boolean = false,
