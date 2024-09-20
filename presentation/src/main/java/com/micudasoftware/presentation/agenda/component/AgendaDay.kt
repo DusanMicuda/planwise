@@ -43,12 +43,12 @@ fun AgendaDay(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = model.dayOfWeek,
+            text = model.dayString,
             style = MaterialTheme.typography.labelSmall,
             color = if (model.selected) Color.Unspecified else Gray
         )
         Spacer(modifier = Modifier.padding(4.dp))
-        Text(text = model.dayOfMonth.toString(), style = MaterialTheme.typography.labelMedium)
+        Text(text = model.dayNumber.toString(), style = MaterialTheme.typography.labelMedium)
     }
 }
 
@@ -63,16 +63,16 @@ private fun AgendaDayPreview() {
             Row {
                 AgendaDay(
                     model = AgendaDayModel(
-                        dayOfWeek = "Mo",
-                        dayOfMonth = 1,
+                        dayString = "Mo",
+                        dayNumber = 1,
                         selected = true,
                         onClick = {}
                     )
                 )
                 AgendaDay(
                     model = AgendaDayModel(
-                        dayOfWeek = "Tu",
-                        dayOfMonth = 2,
+                        dayString = "Tu",
+                        dayNumber = 2,
                         selected = false,
                         onClick = {}
                     )

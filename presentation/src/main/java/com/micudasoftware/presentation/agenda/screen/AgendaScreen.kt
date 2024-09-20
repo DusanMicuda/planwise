@@ -26,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,7 +38,12 @@ import com.micudasoftware.presentation.agenda.component.model.AgendaDayModel
 import com.micudasoftware.presentation.agenda.component.model.AgendaItemModel
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaScreenEvent
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaScreenState
+import com.micudasoftware.presentation.common.theme.Alizarin
+import com.micudasoftware.presentation.common.theme.Emerald
+import com.micudasoftware.presentation.common.theme.PeterRiver
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
+import com.micudasoftware.presentation.common.theme.SunFlower
+import com.micudasoftware.presentation.common.theme.Turquoise
 
 /**
  * A composable that displays the agenda screen.
@@ -136,7 +140,7 @@ fun AgendaScreen(
                 modifier = Modifier.fillMaxHeight(),
                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 16.dp)
             ) {
-                items(viewState.items) { model ->
+                items(viewState.tasks) { model ->
                     AgendaItem(modifier = Modifier.padding(bottom = 10.dp), model = model)
                 }
             }
@@ -163,11 +167,11 @@ private fun AgendaScreenPreview() {
     )
 
     val agendaItemsMock = listOf(
-        AgendaItemModel("Meeting with Team", "Discuss project updates", "09:00 AM", false, Color.Blue, onChangeState = {}, onEdit = {}, onRemove = {}, onOpen = {}),
-        AgendaItemModel("Doctor Appointment", "Annual health checkup", "11:30 AM", false, Color.LightGray, onChangeState = {}, onEdit = {}, onRemove = {}, onOpen = {}),
-        AgendaItemModel("Lunch with Mentor", "Career advice session", "01:00 PM", true, Color.Cyan, onChangeState = {}, onEdit = {}, onRemove = {}, onOpen = {}),
-        AgendaItemModel("Workout", "Gym session", "06:00 PM", false, Color.Green, onChangeState = {}, onEdit = {}, onRemove = {}, onOpen = {}),
-        AgendaItemModel("Book Reading", "Read 'Atomic Habits'", "08:00 PM", true, Color.Magenta, onChangeState = {}, onEdit = {}, onRemove = {}, onOpen = {})
+        AgendaItemModel(0, "Meeting with Team", "Discuss project updates", "09:00 AM", false, Turquoise),
+        AgendaItemModel(0, "Doctor Appointment", "Annual health checkup", "11:30 AM", false, Emerald),
+        AgendaItemModel(0, "Lunch with Mentor", "Career advice session", "01:00 PM", true, SunFlower),
+        AgendaItemModel(0, "Workout", "Gym session", "06:00 PM", false, PeterRiver),
+        AgendaItemModel(0, "Book Reading", "Read 'Atomic Habits'", "08:00 PM", true, Alizarin)
     )
 
     PlanWiseTheme {
@@ -177,7 +181,7 @@ private fun AgendaScreenPreview() {
                     month = "November",
                     year = "2024",
                     days = agendaDaysMock,
-                    items = agendaItemsMock
+                    tasks = agendaItemsMock
                 )
             )
         )

@@ -10,11 +10,11 @@ import com.micudasoftware.presentation.agenda.component.model.AgendaItemModel
  * @param month The month of the agenda.
  * @param year The year of the agenda.
  * @param days The days of the agenda.
- * @param items The items of the agenda.
+ * @param tasks The items of the agenda.
  */
 data class AgendaScreenState(
     val month: String = "",
     val year: String = "",
     val days: List<AgendaDayModel> = emptyList(),
-    val items: List<AgendaItemModel> = emptyList()
+    val tasks: List<AgendaItemModel> = emptyList()
 ): UIState

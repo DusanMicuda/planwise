@@ -83,15 +83,15 @@ fun AgendaItem(
                     ) {
                         DropdownMenuItem(
                             text = { Text(text = "Open") },
-                            onClick = model.onOpen
+                            onClick = { /*TODO*/ }
                         )
                         DropdownMenuItem(
                             text = { Text(text = "Edit") },
-                            onClick = model.onEdit
+                            onClick = { /*TODO*/ }
                         )
                         DropdownMenuItem(
                             text = { Text(text = "Remove") },
-                            onClick = model.onRemove
+                            onClick = { /*TODO*/ }
                         )
                     }
                 }
@@ -128,15 +128,12 @@ private fun AgendaItemPreview() {
     PlanWiseTheme {
         AgendaItem(
             model = AgendaItemModel(
+                id = 0,
                 title = "Title",
                 description = "Description",
                 time = "Mar 6, 12:00 - 13:00",
                 isDone = false,
                 color = Color(0xFF279F70),
-                onChangeState = { },
-                onOpen = {},
-                onEdit = {},
-                onRemove = {}
             )
         )
     }
