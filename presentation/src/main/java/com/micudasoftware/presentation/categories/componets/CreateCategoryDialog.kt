@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
@@ -24,14 +23,15 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.theme.Alizarin
 import com.micudasoftware.presentation.common.theme.Amethyst
@@ -77,7 +77,7 @@ fun CreateCategoryDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                text = "Create a new category",
+                text = stringResource(R.string.title_create_new_category),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
             )
@@ -86,12 +86,12 @@ fun CreateCategoryDialog(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 value = name,
-                label = { Text(text = "Name") },
+                label = { Text(text = stringResource(R.string.text_name)) },
                 onValueChange = { name = it },
             )
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "Select a color",
+                text = stringResource(R.string.title_select_color),
                 style = MaterialTheme.typography.labelMedium,
             )
             FlowRow(modifier = Modifier
@@ -112,7 +112,7 @@ fun CreateCategoryDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 OutlinedButton(onClick = onDismiss) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(R.string.button_cancel))
                 }
                 Button(
                     modifier = Modifier.padding(start = 8.dp),
@@ -125,7 +125,7 @@ fun CreateCategoryDialog(
                         )
                     }
                 ) {
-                    Text(text = "Confirm")
+                    Text(text = stringResource(R.string.button_confirm))
                 }
             }
         }

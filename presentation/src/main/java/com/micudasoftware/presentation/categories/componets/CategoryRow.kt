@@ -18,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 
@@ -58,7 +60,7 @@ fun CategoryRow(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     tint = MaterialTheme.colorScheme.error,
-                    contentDescription = "Remove"
+                    contentDescription = stringResource(R.string.button_remove)
                 )
             }
         }

@@ -15,9 +15,11 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.taskdetail.components.model.TimePickerDialogState
 import java.time.OffsetTime
@@ -49,7 +51,7 @@ fun TimePickerDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 OutlinedButton(onClick = state.onDismiss) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(R.string.button_cancel))
                 }
                 Button(
                     modifier = Modifier.padding(start = 8.dp),
@@ -65,7 +67,7 @@ fun TimePickerDialog(
                         )
                     }
                 ) {
-                    Text(text = "Confirm")
+                    Text(text = stringResource(R.string.button_confirm))
                 }
             }
         }

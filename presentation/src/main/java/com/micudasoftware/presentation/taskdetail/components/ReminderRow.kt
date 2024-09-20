@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.HorizontalDivider
@@ -19,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.theme.Gray
 import com.micudasoftware.presentation.common.theme.LightGray
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
@@ -59,7 +60,7 @@ fun ReminderRow(
                     .padding(4.dp),
                 imageVector = Icons.Outlined.Notifications,
                 tint = Gray,
-                contentDescription = "Reminder"
+                contentDescription = stringResource(R.string.text_reminder)
             )
             Text(
                 modifier = Modifier
@@ -73,7 +74,7 @@ fun ReminderRow(
                     Icon(
                         imageVector = Icons.Filled.Delete,
                         tint = MaterialTheme.colorScheme.error,
-                        contentDescription = "Remove"
+                        contentDescription = stringResource(R.string.button_remove)
                     )
                 }
             }

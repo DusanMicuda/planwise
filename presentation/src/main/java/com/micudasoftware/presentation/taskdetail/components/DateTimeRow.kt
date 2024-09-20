@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.padding
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 
@@ -67,7 +69,7 @@ fun DateTimeRow(
                 Spacer(modifier = Modifier.padding(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Edit"
+                    contentDescription = stringResource(R.string.button_edit)
                 )
             }
         }
@@ -85,7 +87,7 @@ fun DateTimeRow(
                 Spacer(modifier = Modifier.padding(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Edit"
+                    contentDescription = stringResource(R.string.button_edit)
                 )
             }
         }

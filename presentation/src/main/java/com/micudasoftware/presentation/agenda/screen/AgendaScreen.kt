@@ -26,9 +26,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.agenda.component.AgendaDay
@@ -88,7 +90,7 @@ fun AgendaScreen(
                         Icon(
                             imageVector = Icons.Default.MoreVert,
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            contentDescription = "More"
+                            contentDescription = stringResource(R.string.button_more)
                         )
                     }
                 }
@@ -99,7 +101,7 @@ fun AgendaScreen(
                 onClick = { /*TODO*/ },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.button_add))
             }
         }
     ) { paddingValues ->

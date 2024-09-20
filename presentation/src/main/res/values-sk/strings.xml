@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_categories">Kategórie</string>
+    <string name="title_reminders">Pripomienky</string>
+    <string name="title_create_new_category">Vytvoriť novú kategóriu</string>
+    <string name="title_select_color">Vybrať farbu</string>
+    <string name="title_select_category">Vybrať kategóriu</string>
+
+    <string name="text_no_categories">Nenašli sa žiadne kategórie</string>
+    <string name="text_date_from">Od</string>
+    <string name="text_date_to">Do</string>
+    <string name="text_name">Názov</string>
+    <string name="text_custom_reminder">Vlastná pripomienka</string>
+    <string name="text_custom">Vlastné</string>
+    <string name="text_reminder">Pripomienka</string>
+
+    <string name="button_delete_task">Odstrániť úlohu</string>
+    <string name="button_more">Viac</string>
+    <string name="button_add">Pridať</string>
+    <string name="button_edit">Upraviť</string>
+    <string name="button_save">Uložiť</string>
+    <string name="button_remove">Odstrániť</string>
+    <string name="button_close">Zatvoriť</string>
+    <string name="button_back">Späť</string>
+    <string name="button_cancel">Zrušiť</string>
+    <string name="button_confirm">Potvrdiť</string>
+    <string name="button_create_new_category">Vytvoriť novú kategóriu</string>
+
+    <plurals name="text_minutes_before">
+        <item quantity="one">%d minútu vopred</item>
+        <item quantity="few">%d minúty vopred</item>
+        <item quantity="many">%d minút vopred</item>
+        <item quantity="other">%d minút vopred</item>
+    </plurals>
+    <plurals name="text_hours_before">
+        <item quantity="one">%d hodinu vopred</item>
+        <item quantity="few">%d hodiny vopred</item>
+        <item quantity="many">%d hodín vopred</item>
+        <item quantity="other">%d hodín vopred</item>
+    </plurals>
+    <plurals name="text_days_before">
+        <item quantity="one">%d deň vopred</item>
+        <item quantity="few">%d dni vopred</item>
+        <item quantity="many">%d dní vopred</item>
+        <item quantity="other">%d dní vopred</item>
+    </plurals>
+    <plurals name="text_minutes_before_without_value">
+        <item quantity="one">minútu vopred</item>
+        <item quantity="few">minúty vopred</item>
+        <item quantity="many">minút vopred</item>
+        <item quantity="other">minút vopred</item>
+    </plurals>
+    <plurals name="text_hours_before_without_value">
+        <item quantity="one">hodinu vopred</item>
+        <item quantity="few">hodiny vopred</item>
+        <item quantity="many">hodín vopred</item>
+        <item quantity="other">hodín pred</item>
+    </plurals>
+    <plurals name="text_days_before_without_value">
+        <item quantity="one">deň vopred</item>
+        <item quantity="few">dni vopred</item>
+        <item quantity="many">dní vopred</item>
+        <item quantity="other">dní vopred</item>
+    </plurals>
+</resources>

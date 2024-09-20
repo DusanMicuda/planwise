@@ -1,5 +1,9 @@
 package com.micudasoftware.presentation.taskdetail.components.model
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import com.micudasoftware.presentation.R
 import java.time.Duration
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
@@ -15,8 +19,13 @@ data class ReminderModel(
     val value: Int,
     val unit: ChronoUnit
 ) {
-    val title: String = "$value ${unit.name.lowercase()} before" // Todo localize
-    val titleWithoutValue: String = "${unit.name.lowercase()} before" // Todo localize
+    val title: String
+        @Composable get() = when (unit) {
+            ChronoUnit.MINUTES -> pluralStringResource(R.plurals.text_minutes_before, value, value)
+            ChronoUnit.HOURS -> pluralStringResource(R.plurals.text_hours_before, value, value)
+            ChronoUnit.DAYS -> pluralStringResource(R.plurals.text_days_before, value, value)
+            else -> pluralStringResource(R.plurals.text_minutes_before, value, value)
+        }
 
     companion object {
         fun fromDateTimeDifference(startDateTime: OffsetDateTime, reminderDateTime: OffsetDateTime): ReminderModel {

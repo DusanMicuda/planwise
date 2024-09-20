@@ -26,10 +26,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.categories.componets.CategoryRow
 import com.micudasoftware.presentation.categories.componets.CreateCategoryDialog
 import com.micudasoftware.presentation.common.ComposeViewModel
@@ -60,12 +62,12 @@ fun CategoriesScreen(
                     Icon(
                         imageVector = Icons.Default.Close,
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        contentDescription = "Close"
+                        contentDescription = stringResource(R.string.button_close)
                     )
                 }
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "Categories",
+                    text = stringResource(R.string.title_categories),
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelMedium
@@ -77,7 +79,7 @@ fun CategoriesScreen(
                     Icon(
                         imageVector = Icons.Default.Add,
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        contentDescription = "Add"
+                        contentDescription = stringResource(R.string.button_add)
                     )
                 }
             }
@@ -115,7 +117,7 @@ fun CategoriesScreen(
                     ) {
                         Text(
                             modifier = Modifier.padding(16.dp),
-                            text = "No categories found",
+                            text = stringResource(R.string.text_no_categories),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }

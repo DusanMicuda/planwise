@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 
@@ -42,13 +44,13 @@ fun CategorySelectorDialog(
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "Select a category",
+                text = stringResource(R.string.title_select_category),
                 style = MaterialTheme.typography.titleMedium
             )
             if (categories.isEmpty()) {
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = "No categories found",
+                    text = stringResource(R.string.text_no_categories),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -67,7 +69,7 @@ fun CategorySelectorDialog(
                 modifier = Modifier.padding(16.dp),
                 onClick = onAddNew,
             ) {
-                Text(text = "Create new category")
+                Text(text = stringResource(R.string.button_create_new_category))
             }
         }
     }

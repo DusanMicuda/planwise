@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_categories">Categories</string>
+    <string name="title_reminders">Reminders</string>
+    <string name="title_create_new_category">Create new category</string>
+    <string name="title_select_color">Select color</string>
+    <string name="title_select_category">Select category</string>
+
+    <string name="text_no_categories">No categories found</string>
+    <string name="text_date_from">From</string>
+    <string name="text_date_to">To</string>
+    <string name="text_name">Name</string>
+    <string name="text_custom_reminder">Custom reminder</string>
+    <string name="text_custom">Custom</string>
+    <string name="text_reminder">Reminder</string>
+
+    <string name="button_delete_task">Delete Task</string>
+    <string name="button_more">More</string>
+    <string name="button_add">Add</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_save">Save</string>
+    <string name="button_remove">Remove</string>
+    <string name="button_close">Close</string>
+    <string name="button_back">Back</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_confirm">Confirm</string>
+    <string name="button_create_new_category">Create new category</string>
+
+    <plurals name="text_minutes_before">
+        <item quantity="one">%d minute before</item>
+        <item quantity="other">%d minutes before</item>
+    </plurals>
+    <plurals name="text_hours_before">
+        <item quantity="one">%d hour before</item>
+        <item quantity="other">%d hours before</item>
+    </plurals>
+    <plurals name="text_days_before">
+        <item quantity="one">%d day before</item>
+        <item quantity="other">%d days before</item>
+    </plurals>
+    <plurals name="text_minutes_before_without_value">
+        <item quantity="one">minute before</item>
+        <item quantity="other">minutes before</item>
+    </plurals>
+    <plurals name="text_hours_before_without_value">
+        <item quantity="one">hour before</item>
+        <item quantity="other">hours before</item>
+    </plurals>
+    <plurals name="text_days_before_without_value">
+        <item quantity="one">day before</item>
+        <item quantity="other">days before</item>
+    </plurals>
+</resources>

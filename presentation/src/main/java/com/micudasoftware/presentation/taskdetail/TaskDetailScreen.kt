@@ -37,10 +37,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
@@ -87,7 +89,7 @@ fun TaskDetailScreen(
                         Icon(
                             imageVector = Icons.Default.Close,
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            contentDescription = "Close"
+                            contentDescription = stringResource(R.string.button_close)
                         )
                     }
                 } else {
@@ -98,7 +100,7 @@ fun TaskDetailScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.button_back)
                         )
                     }
                 }
@@ -117,7 +119,7 @@ fun TaskDetailScreen(
                         Icon(
                             imageVector = Icons.Default.Done,
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            contentDescription = "Done"
+                            contentDescription = stringResource(R.string.button_save)
                         )
                     }
                 } else {
@@ -128,7 +130,7 @@ fun TaskDetailScreen(
                         Icon(
                             imageVector = Icons.Default.Edit,
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            contentDescription = "Edit"
+                            contentDescription = stringResource(R.string.button_edit)
                         )
                     }
                 }
@@ -178,7 +180,7 @@ fun TaskDetailScreen(
                     if (viewState.isEditable) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "Edit"
+                            contentDescription = stringResource(R.string.button_edit)
                         )
                     }
                 }
@@ -223,7 +225,7 @@ fun TaskDetailScreen(
                 )
                 DateTimeRow(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    title = "From",
+                    title = stringResource(R.string.text_date_from),
                     time = viewState.startDateTime.formattedTime,
                     date = viewState.startDateTime.formattedDateShort,
                     isEditable = viewState.isEditable,
@@ -247,7 +249,7 @@ fun TaskDetailScreen(
                 )
                 DateTimeRow(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    title = "To",
+                    title = stringResource(R.string.text_date_to),
                     time = viewState.endDateTime.formattedTime,
                     date = viewState.endDateTime.formattedDateShort,
                     isEditable = viewState.isEditable,
@@ -278,7 +280,7 @@ fun TaskDetailScreen(
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "Reminders",
+                        text = stringResource(R.string.title_reminders),
                         style = MaterialTheme.typography.titleMedium,
                     )
                     if (viewState.isEditable) {
@@ -287,7 +289,7 @@ fun TaskDetailScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Add"
+                                contentDescription = stringResource(R.string.button_add)
                             )
                         }
                     }
@@ -317,7 +319,7 @@ fun TaskDetailScreen(
                             )
                             Text(
                                 modifier = Modifier.padding(bottom = 16.dp),
-                                text = "Delete Task",
+                                text = stringResource(R.string.button_delete_task),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.error
                             )

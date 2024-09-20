@@ -9,7 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.taskdetail.components.model.DatePickerDialogState
 import java.time.Instant
@@ -41,12 +43,12 @@ fun DatePickerDialog(
                     }
                 }
             ) {
-                Text(text = "Confirm")
+                Text(text = stringResource(R.string.button_confirm))
             }
         },
         dismissButton = {
             OutlinedButton(onClick = state.onDismiss) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.button_cancel))
             }
         },
         shape = MaterialTheme.shapes.medium,
