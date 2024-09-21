@@ -59,11 +59,16 @@ import com.micudasoftware.presentation.taskdetail.components.ReminderPickerDialo
 import com.micudasoftware.presentation.taskdetail.components.TimePickerDialog
 import com.micudasoftware.presentation.taskdetail.components.model.DatePickerDialogState
 import com.micudasoftware.presentation.taskdetail.components.model.TimePickerDialogState
+import kotlinx.serialization.Serializable
 import java.time.temporal.ChronoUnit
+
+@Serializable
+data class TaskDetail(val id: Long? = null)
 
 @Composable
 fun TaskDetailScreen(
-    viewModel: ComposeViewModel<TaskDetailState, TaskDetailEvent>
+    viewModel: ComposeViewModel<TaskDetailState, TaskDetailEvent>,
+    onNavigateBack: () -> Unit,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     var timePickerState: TimePickerDialogState? by remember { mutableStateOf(null) }
@@ -84,7 +89,7 @@ fun TaskDetailScreen(
                 if (viewState.isEditable) {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { viewModel.onEvent(TaskDetailEvent.NavigateBack) }
+                        onClick = { viewModel.onEvent(TaskDetailEvent.CancelEdit) }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
@@ -95,7 +100,7 @@ fun TaskDetailScreen(
                 } else {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { viewModel.onEvent(TaskDetailEvent.CancelEdit) }
+                        onClick = onNavigateBack
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -403,7 +408,8 @@ private fun TaskDetailScreenPreview() {
                         ),
                     )
                 )
-            )
+            ),
+            onNavigateBack = {}
         )
     }
 }
@@ -437,7 +443,8 @@ private fun TaskDetailScreenEditablePreview() {
                         ),
                     )
                 )
-            )
+            ),
+            onNavigateBack = {}
         )
     }
 }

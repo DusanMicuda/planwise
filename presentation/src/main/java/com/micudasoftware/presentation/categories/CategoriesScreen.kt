@@ -38,10 +38,15 @@ import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
+import kotlinx.serialization.Serializable
+
+@Serializable
+object Categories
 
 @Composable
 fun CategoriesScreen(
-    viewModel: ComposeViewModel<CategoriesState, CategoriesEvent>
+    viewModel: ComposeViewModel<CategoriesState, CategoriesEvent>,
+    onNavigateBack: () -> Unit,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     var showCreateCategoryDialog by rememberSaveable { mutableStateOf(false) }
@@ -57,7 +62,7 @@ fun CategoriesScreen(
             ) {
                 IconButton(
                     modifier = Modifier.padding(8.dp),
-                    onClick = { viewModel.onEvent(CategoriesEvent.NavigateBack) }
+                    onClick = onNavigateBack
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
@@ -158,7 +163,8 @@ private fun CategoriesScreenPreview() {
                         ),
                     )
                 )
-            )
+            ),
+            onNavigateBack = {}
         )
     }
 }
@@ -172,7 +178,8 @@ private fun CategoriesScreenEmptyPreview() {
                 CategoriesState(
                     categories = emptyList()
                 )
-            )
+            ),
+            onNavigateBack = {}
         )
     }
 }

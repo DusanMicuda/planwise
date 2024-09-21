@@ -6,6 +6,9 @@ import com.micudasoftware.data.repository.TasksRepository
 import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,12 +16,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import javax.inject.Inject
 
-@HiltViewModel
-class TaskDetailViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = TaskDetailViewModel.Factory::class)
+class TaskDetailViewModel @AssistedInject constructor(
+    @Assisted taskId: Long?,
     private val repository: TasksRepository
 ) : ViewModel(), ComposeViewModel<TaskDetailState, TaskDetailEvent> {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(taskId: Long?): TaskDetailViewModel
+    }
 
     private val _viewState = MutableStateFlow(TaskDetailState())
     override val viewState = _viewState.asStateFlow()

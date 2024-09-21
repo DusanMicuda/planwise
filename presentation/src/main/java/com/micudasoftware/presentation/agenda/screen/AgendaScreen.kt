@@ -46,6 +46,10 @@ import com.micudasoftware.presentation.common.theme.PeterRiver
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.common.theme.SunFlower
 import com.micudasoftware.presentation.common.theme.Turquoise
+ import kotlinx.serialization.Serializable
+
+@Serializable
+object Agenda
 
 /**
  * A composable that displays the agenda screen.
@@ -54,7 +58,8 @@ import com.micudasoftware.presentation.common.theme.Turquoise
  */
 @Composable
 fun AgendaScreen(
-    viewModel: ComposeViewModel<AgendaScreenState, AgendaScreenEvent>
+    viewModel: ComposeViewModel<AgendaScreenState, AgendaScreenEvent>,
+    onNavigateToTaskDetail: () -> Unit
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
@@ -98,7 +103,7 @@ fun AgendaScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = onNavigateToTaskDetail,
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.button_add))
@@ -185,7 +190,8 @@ private fun AgendaScreenPreview() {
                     days = agendaDaysMock,
                     tasks = agendaItemsMock
                 )
-            )
+            ),
+            onNavigateToTaskDetail = {}
         )
     }
 }
