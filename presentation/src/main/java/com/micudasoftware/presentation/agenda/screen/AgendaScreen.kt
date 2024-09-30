@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,16 +42,16 @@ import com.micudasoftware.presentation.agenda.component.model.AgendaDayModel
 import com.micudasoftware.presentation.agenda.component.model.AgendaItemModel
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaScreenEvent
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaScreenState
+import com.micudasoftware.presentation.common.navigation.Destination
+import com.micudasoftware.presentation.common.navigation.EmptyNavigator
+import com.micudasoftware.presentation.common.navigation.Navigator
 import com.micudasoftware.presentation.common.theme.Alizarin
 import com.micudasoftware.presentation.common.theme.Emerald
 import com.micudasoftware.presentation.common.theme.PeterRiver
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.common.theme.SunFlower
 import com.micudasoftware.presentation.common.theme.Turquoise
- import kotlinx.serialization.Serializable
-
-@Serializable
-object Agenda
+import kotlinx.coroutines.launch
 
 /**
  * A composable that displays the agenda screen.
@@ -60,9 +61,10 @@ object Agenda
 @Composable
 fun AgendaScreen(
     viewModel: ComposeViewModel<AgendaScreenState, AgendaScreenEvent>,
-    onNavigateToTaskDetail: () -> Unit
+    navigator: Navigator,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -104,7 +106,7 @@ fun AgendaScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onNavigateToTaskDetail,
+                onClick = { coroutineScope.launch { navigator.navigateTo(Destination.TaskDetail()) }},
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.button_add))
@@ -211,7 +213,7 @@ private fun AgendaScreenPreview() {
                     tasks = agendaItemsMock
                 )
             ),
-            onNavigateToTaskDetail = {}
+            navigator = EmptyNavigator,
         )
     }
 }
@@ -241,7 +243,7 @@ private fun AgendaScreenEmptyPreview() {
                     tasks = emptyList()
                 )
             ),
-            onNavigateToTaskDetail = {}
+            navigator = EmptyNavigator,
         )
     }
 }

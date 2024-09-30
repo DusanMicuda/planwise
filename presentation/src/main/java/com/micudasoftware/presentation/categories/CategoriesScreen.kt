@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,17 +39,17 @@ import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
-import kotlinx.serialization.Serializable
-
-@Serializable
-object Categories
+import com.micudasoftware.presentation.common.navigation.EmptyNavigator
+import com.micudasoftware.presentation.common.navigation.Navigator
+import kotlinx.coroutines.launch
 
 @Composable
 fun CategoriesScreen(
     viewModel: ComposeViewModel<CategoriesState, CategoriesEvent>,
-    onNavigateBack: () -> Unit,
+    navigator: Navigator,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
     var showCreateCategoryDialog by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
@@ -62,7 +63,7 @@ fun CategoriesScreen(
             ) {
                 IconButton(
                     modifier = Modifier.padding(8.dp),
-                    onClick = onNavigateBack
+                    onClick = { coroutineScope.launch { navigator.navigateUp() }}
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
@@ -164,7 +165,7 @@ private fun CategoriesScreenPreview() {
                     )
                 )
             ),
-            onNavigateBack = {}
+            navigator = EmptyNavigator
         )
     }
 }
@@ -179,7 +180,7 @@ private fun CategoriesScreenEmptyPreview() {
                     categories = emptyList()
                 )
             ),
-            onNavigateBack = {}
+            navigator = EmptyNavigator
         )
     }
 }

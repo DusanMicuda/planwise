@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +49,8 @@ import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.common.component.TransparentTextField
+import com.micudasoftware.presentation.common.navigation.EmptyNavigator
+import com.micudasoftware.presentation.common.navigation.Navigator
 import com.micudasoftware.presentation.common.padding
 import com.micudasoftware.presentation.taskdetail.components.DateTimeRow
 import com.micudasoftware.presentation.taskdetail.components.ReminderRow
@@ -61,18 +64,16 @@ import com.micudasoftware.presentation.taskdetail.components.ReminderPickerDialo
 import com.micudasoftware.presentation.taskdetail.components.TimePickerDialog
 import com.micudasoftware.presentation.taskdetail.components.model.DatePickerDialogState
 import com.micudasoftware.presentation.taskdetail.components.model.TimePickerDialogState
-import kotlinx.serialization.Serializable
+import kotlinx.coroutines.launch
 import java.time.temporal.ChronoUnit
-
-@Serializable
-data class TaskDetail(val id: Long? = null)
 
 @Composable
 fun TaskDetailScreen(
     viewModel: ComposeViewModel<TaskDetailState, TaskDetailEvent>,
-    onNavigateBack: () -> Unit,
+    navigator: Navigator,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
     var timePickerState: TimePickerDialogState? by remember { mutableStateOf(null) }
     var datePickerState: DatePickerDialogState? by remember { mutableStateOf(null) }
     var showReminderPickerDialog by remember { mutableStateOf(false) }
@@ -102,7 +103,7 @@ fun TaskDetailScreen(
                 } else {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = onNavigateBack
+                        onClick = { coroutineScope.launch { navigator.navigateUp() } }
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -171,9 +172,11 @@ fun TaskDetailScreen(
                         modifier = Modifier
                             .size(20.dp)
                             .background(
-                                color = viewState.category?.color ?: MaterialTheme.colorScheme.background,
+                                color = viewState.category?.color
+                                    ?: MaterialTheme.colorScheme.background,
                                 shape = MaterialTheme.shapes.extraSmall,
-                            ).border(
+                            )
+                            .border(
                                 width = 1.dp,
                                 color = viewState.category?.color ?: DarkGray,
                                 shape = MaterialTheme.shapes.extraSmall
@@ -428,7 +431,7 @@ private fun TaskDetailScreenPreview() {
                     )
                 )
             ),
-            onNavigateBack = {}
+            navigator = EmptyNavigator
         )
     }
 }
@@ -463,7 +466,7 @@ private fun TaskDetailScreenEditablePreview() {
                     )
                 )
             ),
-            onNavigateBack = {}
+            navigator = EmptyNavigator
         )
     }
 }
@@ -476,7 +479,7 @@ private fun TaskDetailScreenEmptyPreview() {
             viewModel = PreviewViewModel(
                 TaskDetailState(isEditable = true)
             ),
-            onNavigateBack = {}
+            navigator = EmptyNavigator
         )
     }
 }
