@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.serialization)
 
+    implementation(libs.timber)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
