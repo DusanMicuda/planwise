@@ -13,6 +13,7 @@
     <string name="text_custom_reminder">Vlastná pripomienka</string>
     <string name="text_custom">Vlastné</string>
     <string name="text_reminder">Pripomienka</string>
+    <string name="text_no_tasks">Žiadne úlohy na tento deň</string>
 
     <string name="button_delete_task">Odstrániť úlohu</string>
     <string name="button_more">Viac</string>

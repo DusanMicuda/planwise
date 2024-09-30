@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -128,12 +129,18 @@ fun AgendaScreen(
                             shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
                         )
                 ) {
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentPadding = PaddingValues(16.dp)
-                    ) {
-                        items(viewState.days) { model ->
-                            AgendaDay(modifier = Modifier.padding(4.dp), model = model)
+                    if (viewState.days.isNotEmpty()) {
+                        val listState = rememberLazyListState(
+                            initialFirstVisibleItemIndex = viewState.days.firstOrNull { it.selected }?.let { viewState.days.indexOf(it) } ?: 0
+                        )
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentPadding = PaddingValues(16.dp),
+                            state = listState
+                        ) {
+                            items(viewState.days) { model ->
+                                AgendaDay(modifier = Modifier.padding(4.dp), model = model)
+                            }
                         }
                     }
                     Text(
@@ -143,12 +150,25 @@ fun AgendaScreen(
                     )
                 }
             }
-            LazyColumn(
-                modifier = Modifier.fillMaxHeight(),
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 16.dp)
-            ) {
-                items(viewState.tasks) { model ->
-                    AgendaItem(modifier = Modifier.padding(bottom = 10.dp), model = model)
+            if (viewState.tasks.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        modifier = Modifier.padding(16.dp),
+                        text = stringResource(R.string.text_no_tasks),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxHeight(),
+                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 16.dp)
+                ) {
+                    items(viewState.tasks) { model ->
+                        AgendaItem(modifier = Modifier.padding(bottom = 10.dp), model = model)
+                    }
                 }
             }
         }
@@ -189,6 +209,36 @@ private fun AgendaScreenPreview() {
                     year = "2024",
                     days = agendaDaysMock,
                     tasks = agendaItemsMock
+                )
+            ),
+            onNavigateToTaskDetail = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AgendaScreenEmptyPreview() {
+    val agendaDaysMock = listOf(
+        AgendaDayModel("Mo", 1, false, onClick = {}),
+        AgendaDayModel("Tu", 2, false, onClick = {}),
+        AgendaDayModel("We", 3, false, onClick = {}),
+        AgendaDayModel("Th", 4, false, onClick = {}),
+        AgendaDayModel("Fr", 5, true, onClick = {}),
+        AgendaDayModel("Sa", 6, false, onClick = {}),
+        AgendaDayModel("Su", 7, false, onClick = {}),
+        AgendaDayModel("Mo", 8, false, onClick = {}),
+        AgendaDayModel("Tu", 9, false, onClick = {}),
+    )
+
+    PlanWiseTheme {
+        AgendaScreen(
+            viewModel = PreviewViewModel(
+                AgendaScreenState(
+                    month = "November",
+                    year = "2024",
+                    days = agendaDaysMock,
+                    tasks = emptyList()
                 )
             ),
             onNavigateToTaskDetail = {}

@@ -13,6 +13,7 @@
     <string name="text_custom_reminder">Custom reminder</string>
     <string name="text_custom">Custom</string>
     <string name="text_reminder">Reminder</string>
+    <string name="text_no_tasks">No tasks for this day</string>
 
     <string name="button_delete_task">Delete Task</string>
     <string name="button_more">More</string>
