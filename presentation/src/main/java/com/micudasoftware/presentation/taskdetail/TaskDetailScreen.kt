@@ -1,6 +1,7 @@
 package com.micudasoftware.presentation.taskdetail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,6 +47,7 @@ import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
+import com.micudasoftware.presentation.common.component.TransparentTextField
 import com.micudasoftware.presentation.common.padding
 import com.micudasoftware.presentation.taskdetail.components.DateTimeRow
 import com.micudasoftware.presentation.taskdetail.components.ReminderRow
@@ -119,7 +121,7 @@ fun TaskDetailScreen(
                 if (viewState.isEditable) {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { viewModel.onEvent(TaskDetailEvent.EditTask) }
+                        onClick = { viewModel.onEvent(TaskDetailEvent.SaveTask) }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Done,
@@ -130,7 +132,7 @@ fun TaskDetailScreen(
                 } else {
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { viewModel.onEvent(TaskDetailEvent.SaveTask) }
+                        onClick = { viewModel.onEvent(TaskDetailEvent.EditTask) }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Edit,
@@ -169,8 +171,12 @@ fun TaskDetailScreen(
                         modifier = Modifier
                             .size(20.dp)
                             .background(
-                                color = viewState.category.color,
+                                color = viewState.category?.color ?: MaterialTheme.colorScheme.background,
                                 shape = MaterialTheme.shapes.extraSmall,
+                            ).border(
+                                width = 1.dp,
+                                color = viewState.category?.color ?: DarkGray,
+                                shape = MaterialTheme.shapes.extraSmall
                             ),
                         content = {}
                     )
@@ -178,7 +184,7 @@ fun TaskDetailScreen(
                         modifier = Modifier
                             .padding(start = 12.dp)
                             .weight(1f),
-                        text = viewState.category.name,
+                        text = viewState.category?.name ?: stringResource(R.string.title_select_category),
                         style = MaterialTheme.typography.labelMedium,
                         color = DarkGray
                     )
@@ -201,9 +207,15 @@ fun TaskDetailScreen(
                             uncheckedColor = Color.Black
                         )
                     )
-                    BasicTextField(
+                    TransparentTextField(
                         modifier = Modifier.weight(1f),
                         value = viewState.title,
+                        placeholder = {
+                            Text(
+                                text = "Title",
+                                style = MaterialTheme.typography.titleLarge,
+                            )
+                      },
                         onValueChange = { viewModel.onEvent(TaskDetailEvent.ChangeTitle(it)) },
                         textStyle = MaterialTheme.typography.titleLarge,
                         singleLine = true,
@@ -215,9 +227,16 @@ fun TaskDetailScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 )
-                BasicTextField(
+                TransparentTextField(
                     modifier = Modifier.padding(16.dp),
                     value = viewState.description,
+                    placeholder = {
+                        Text(
+                            text = "Description...",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontStyle = FontStyle.Italic
+                        )
+                    },
                     onValueChange = { viewModel.onEvent(TaskDetailEvent.ChangeDescription(it)) },
                     textStyle = MaterialTheme.typography.bodyLarge,
                     minLines = 4,
@@ -443,6 +462,19 @@ private fun TaskDetailScreenEditablePreview() {
                         ),
                     )
                 )
+            ),
+            onNavigateBack = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TaskDetailScreenEmptyPreview() {
+    PlanWiseTheme {
+        TaskDetailScreen(
+            viewModel = PreviewViewModel(
+                TaskDetailState(isEditable = true)
             ),
             onNavigateBack = {}
         )

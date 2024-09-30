@@ -1,6 +1,5 @@
 package com.micudasoftware.presentation.taskdetail
 
-import androidx.compose.ui.graphics.Color
 import com.micudasoftware.data.repository.model.Task
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.UIState
@@ -12,7 +11,7 @@ data class TaskDetailState(
     val id: Long? = null,
     val title: String = "",
     val description: String = "",
-    val category: CategoryModel = CategoryModel(0, "", Color.White),
+    val category: CategoryModel? = null,
     val categories: List<CategoryModel> = emptyList(),
     val startDateTime: DateTimeModel = DateTimeModel(OffsetDateTime.now()),
     val endDateTime: DateTimeModel = DateTimeModel(OffsetDateTime.now()),
@@ -44,7 +43,7 @@ data class TaskDetailState(
         id = id,
         name = title,
         description = description,
-        categoryId = category.id,
+        categoryId = category?.id ?: 0,
         startDateTime = startDateTime.offsetDateTime,
         endDateTime = endDateTime.offsetDateTime,
         isCompleted = isCompleted,
