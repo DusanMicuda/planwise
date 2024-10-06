@@ -4,6 +4,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import timber.log.Timber
 
 /**
  * Interface defining navigation operations.
@@ -36,14 +37,23 @@ interface Navigator {
  */
 internal class DefaultNavigator: Navigator {
 
-    private val _navEvent: Channel<NavEvent> = Channel(Channel.CONFLATED)
+    private val timber = Timber.tag("DefaultNavigator")
+
+    private val _navEvent: Channel<NavEvent> = Channel(
+        Channel.CONFLATED,
+        onUndeliveredElement = {
+            timber.w("Undelivered navigation event: $it")
+        }
+    )
     override val navEvent: Flow<NavEvent> = _navEvent.receiveAsFlow()
 
     override suspend fun navigateTo(destination: Destination) {
+        timber.d("Navigating to: $destination")
         _navEvent.send(NavEvent.To(destination))
     }
 
     override suspend fun navigateUp() {
+        timber.d("Navigating up")
         _navEvent.send(NavEvent.Back)
     }
 
