@@ -5,6 +5,7 @@
     <string name="title_create_new_category">Create new category</string>
     <string name="title_select_color">Select color</string>
     <string name="title_select_category">Select category</string>
+    <string name="title_warning">Warning</string>
 
     <string name="text_no_categories">No categories found</string>
     <string name="text_date_from">From</string>
@@ -14,6 +15,13 @@
     <string name="text_custom">Custom</string>
     <string name="text_reminder">Reminder</string>
     <string name="text_no_tasks">No tasks for this day</string>
+    <string name="text_enter_title">Enter title</string>
+    <string name="text_unnamed">(Unnamed)</string>
+    <string name="text_title_is_empty">Title is empty, please enter the title.</string>
+    <string name="text_category_is_empty">Category is empty, please select the category.</string>
+    <string name="text_end_date_is_before_start_date">End date is before start date.</string>
+    <string name="text_task_deleted">Task %s was deleted.</string>
+    <string name="text_task_saved">Task %s was saved.</string>
 
     <string name="button_delete_task">Delete Task</string>
     <string name="button_more">More</string>

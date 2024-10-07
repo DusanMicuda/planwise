@@ -1,5 +1,6 @@
 package com.micudasoftware.presentation.taskdetail
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,6 +22,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -38,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.micudasoftware.presentation.R
+import com.micudasoftware.presentation.categories.componets.CreateCategoryDialog
 import com.micudasoftware.presentation.categories.componets.model.CategoryModel
 import com.micudasoftware.presentation.common.ComposeViewModel
 import com.micudasoftware.presentation.common.PreviewViewModel
@@ -67,6 +72,12 @@ import com.micudasoftware.presentation.taskdetail.components.model.TimePickerDia
 import kotlinx.coroutines.launch
 import java.time.temporal.ChronoUnit
 
+/**
+ * Composable function for the Task Detail screen.
+ *
+ * @param viewModel The [ComposeViewModel] for the Task Detail screen.
+ * @param navigator The [Navigator] for the Task Detail screen.
+ */
 @Composable
 fun TaskDetailScreen(
     viewModel: ComposeViewModel<TaskDetailState, TaskDetailEvent>,
@@ -79,6 +90,7 @@ fun TaskDetailScreen(
     var showReminderPickerDialog by remember { mutableStateOf(false) }
     var showCustomReminderPickerDialog by remember { mutableStateOf(false) }
     var showCategorySelectorDialog by remember { mutableStateOf(false) }
+    var showCreateCategoryDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -120,9 +132,17 @@ fun TaskDetailScreen(
                     style = MaterialTheme.typography.labelMedium
                 )
                 if (viewState.isEditable) {
+                    val context = LocalContext.current
+                    val taskName = viewState.title.ifBlank {
+                        stringResource(R.string.text_unnamed)
+                    }
+                    val toastText = stringResource(R.string.text_task_saved, taskName)
                     IconButton(
                         modifier = Modifier.padding(8.dp),
-                        onClick = { viewModel.onEvent(TaskDetailEvent.SaveTask) }
+                        onClick = {
+                            viewModel.onEvent(TaskDetailEvent.SaveTask)
+                            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show()
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Done,
@@ -215,7 +235,7 @@ fun TaskDetailScreen(
                         value = viewState.title,
                         placeholder = {
                             Text(
-                                text = "Title",
+                                text = stringResource(R.string.text_enter_title),
                                 style = MaterialTheme.typography.titleLarge,
                             )
                       },
@@ -258,13 +278,19 @@ fun TaskDetailScreen(
                     isEditable = viewState.isEditable,
                     onEditTime = {
                         timePickerState = TimePickerDialogState(
-                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeStartTime(it)) },
+                            onConfirm = {
+                                viewModel.onEvent(TaskDetailEvent.ChangeStartTime(it))
+                                timePickerState = null
+                            },
                             onDismiss = { timePickerState = null }
                         )
                     },
                     onEditDate = {
                         datePickerState = DatePickerDialogState(
-                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeStartDate(it)) },
+                            onConfirm = {
+                                viewModel.onEvent(TaskDetailEvent.ChangeStartDate(it))
+                                datePickerState = null
+                            },
                             onDismiss = { datePickerState = null }
                         )
                     },
@@ -282,13 +308,19 @@ fun TaskDetailScreen(
                     isEditable = viewState.isEditable,
                     onEditTime = {
                         timePickerState = TimePickerDialogState(
-                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeEndTime(it)) },
+                            onConfirm = {
+                                viewModel.onEvent(TaskDetailEvent.ChangeEndTime(it))
+                                timePickerState = null
+                            },
                             onDismiss = { timePickerState = null }
                         )
                     },
                     onEditDate = {
                         datePickerState = DatePickerDialogState(
-                            onConfirm = { viewModel.onEvent(TaskDetailEvent.ChangeEndDate(it)) },
+                            onConfirm = {
+                                viewModel.onEvent(TaskDetailEvent.ChangeEndDate(it))
+                                datePickerState = null
+                            },
                             onDismiss = { datePickerState = null }
                         )
                     },
@@ -331,25 +363,39 @@ fun TaskDetailScreen(
                         )
                     }
                 }
-                Box(
-                    modifier = Modifier.weight(1f),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Box(modifier = Modifier.clickable(onClick = { viewModel.onEvent(TaskDetailEvent.DeleteTask) })) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
+                if (viewState.id != null && !viewState.isEditable) {
+                    Box(
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        val context = LocalContext.current
+                        val taskName = viewState.title.ifBlank {
+                            stringResource(R.string.text_unnamed)
+                        }
+                        val toastText = stringResource(R.string.text_task_deleted, taskName)
+                        Box(
+                            modifier = Modifier.clickable(
+                                onClick = {
+                                    viewModel.onEvent(TaskDetailEvent.DeleteTask)
+                                    Toast.makeText(context, toastText, Toast.LENGTH_LONG).show()
+                                }
+                            )
                         ) {
-                            HorizontalDivider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 16.dp)
-                            )
-                            Text(
-                                modifier = Modifier.padding(bottom = 16.dp),
-                                text = stringResource(R.string.button_delete_task),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.error
-                            )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                HorizontalDivider(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 16.dp)
+                                )
+                                Text(
+                                    modifier = Modifier.padding(bottom = 16.dp),
+                                    text = stringResource(R.string.button_delete_task),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
                         }
                     }
                 }
@@ -395,8 +441,35 @@ fun TaskDetailScreen(
                 viewModel.onEvent(TaskDetailEvent.ChangeCategory(it))
                 showCategorySelectorDialog = false
             },
-            onAddNew = { /*TODO*/ },
+            onAddNew = {
+                showCategorySelectorDialog = false
+                showCreateCategoryDialog = true
+            },
             onDismiss = { showCategorySelectorDialog = false }
+        )
+    }
+
+    if (showCreateCategoryDialog) {
+        CreateCategoryDialog(
+            onConfirm = {
+                viewModel.onEvent(TaskDetailEvent.CreateCategory(it))
+                showCreateCategoryDialog = false
+                showCategorySelectorDialog = true
+            },
+            onDismiss = { showCreateCategoryDialog = false }
+        )
+    }
+
+    viewState.alertDialogTextRes?.let { textRes ->
+        AlertDialog(
+            title = { Text(stringResource(R.string.title_warning)) },
+            text = { Text(stringResource(textRes)) },
+            onDismissRequest = { viewModel.onEvent(TaskDetailEvent.ConfirmDialog) },
+            confirmButton = {
+                Button(onClick = { viewModel.onEvent(TaskDetailEvent.ConfirmDialog) }) {
+                    Text(stringResource(R.string.button_confirm))
+                }
+            },
         )
     }
 }
@@ -437,7 +510,7 @@ private fun TaskDetailScreenPreview() {
 }
 
 /**
- * Preview for [TaskDetailScreen].
+ * Preview for [TaskDetailScreen] in editable mode.
  */
 @Preview
 @Composable

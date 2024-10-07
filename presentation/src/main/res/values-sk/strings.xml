@@ -5,6 +5,7 @@
     <string name="title_create_new_category">Vytvoriť novú kategóriu</string>
     <string name="title_select_color">Vybrať farbu</string>
     <string name="title_select_category">Vybrať kategóriu</string>
+    <string name="title_warning">Varovanie</string>
 
     <string name="text_no_categories">Nenašli sa žiadne kategórie</string>
     <string name="text_date_from">Od</string>
@@ -14,6 +15,13 @@
     <string name="text_custom">Vlastné</string>
     <string name="text_reminder">Pripomienka</string>
     <string name="text_no_tasks">Žiadne úlohy na tento deň</string>
+    <string name="text_enter_title">Pridajte Názov</string>
+    <string name="text_unnamed">(Bez názvu)</string>
+    <string name="text_title_is_empty">Názov je prázdny, prosím zadajte názov.</string>
+    <string name="text_category_is_empty">Kategória je prázdna, prosím vyberte kategóriu.</string>
+    <string name="text_end_date_is_before_start_date">Koncový dátum je pred začiatočným dátumom.</string>
+    <string name="text_task_deleted">Úloha %s bola odstránená.</string>
+    <string name="text_task_saved">Task %s was saved.</string>
 
     <string name="button_delete_task">Odstrániť úlohu</string>
     <string name="button_more">Viac</string>
