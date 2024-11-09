@@ -1,4 +1,4 @@
-package com.micudasoftware.presentation.common
+package com.micudasoftware.presentation.common.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable

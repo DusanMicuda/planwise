@@ -46,7 +46,7 @@ data class TaskDetailState(
          * @param categoryModel The category model associated with the task.
          * @return A TaskDetailState representing the task.
          */
-        fun fromTask(task: Task, categoryModel: CategoryModel) = TaskDetailState(
+        fun fromTask(task: Task, categoryModel: CategoryModel, editable: Boolean) = TaskDetailState(
             id = task.id,
             title = task.name,
             description = task.description,
@@ -59,7 +59,7 @@ data class TaskDetailState(
                     reminderDateTime = it
                 )
             },
-            isEditable = false,
+            isEditable = editable,
         )
     }
 

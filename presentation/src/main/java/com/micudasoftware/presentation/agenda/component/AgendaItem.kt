@@ -1,11 +1,11 @@
 package com.micudasoftware.presentation.agenda.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -30,39 +30,51 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.agenda.component.model.AgendaItemModel
-import com.micudasoftware.presentation.common.isColorDark
+import com.micudasoftware.presentation.common.utils.isColorDark
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
+import com.micudasoftware.presentation.common.utils.padding
 
 /**
  * A composable that displays an agenda item.
  *
  * @param model The model that contains the data to display
  * @param modifier The modifier to apply to this layout
+ * @param onComplete The callback to be called when the checkbox state changes
+ * @param onOpen The callback to be called when the item is opened
+ * @param onEdit The callback to be called when the item is edited
+ * @param onRemove The callback to be called when the item is removed
  */
 @Composable
 fun AgendaItem(
     model: AgendaItemModel,
     modifier: Modifier = Modifier,
+    onComplete: (Boolean) -> Unit,
+    onOpen: () -> Unit,
+    onEdit: () -> Unit,
+    onRemove: () -> Unit,
 ) {
     var menuIsExpanded by rememberSaveable { mutableStateOf(false) }
 
     Card(modifier = modifier) {
         Column(modifier = Modifier
+            .clickable(onClick = onOpen)
             .background(color = model.color)
             .padding(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
                     checked = model.isDone,
-                    onCheckedChange = {},
+                    onCheckedChange = onComplete,
                     colors = if (isColorDark(model.color)) {
                         CheckboxDefaults.colors(
                             checkedColor = Color.White,
-                            uncheckedColor = Color.White
+                            uncheckedColor = Color.White,
+                            checkmarkColor = Color.Black,
                         )
                     } else {
                         CheckboxDefaults.colors(
                             checkedColor = Color.Black,
-                            uncheckedColor = Color.Black
+                            uncheckedColor = Color.Black,
+                            checkmarkColor = Color.White,
                         )
                     }
                 )
@@ -84,15 +96,24 @@ fun AgendaItem(
                     ) {
                         DropdownMenuItem(
                             text = { Text(text = "Open") },
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                onOpen()
+                                menuIsExpanded = false
+                            }
                         )
                         DropdownMenuItem(
                             text = { Text(text = "Edit") },
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                onEdit()
+                                menuIsExpanded = false
+                            }
                         )
                         DropdownMenuItem(
                             text = { Text(text = "Remove") },
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                onRemove()
+                                menuIsExpanded = false
+                            }
                         )
                     }
                 }
@@ -109,7 +130,7 @@ fun AgendaItem(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp, end = 16.dp),
+                    .padding(vertical = 8.dp, end = 16.dp),
                 text = model.time,
                 textAlign = TextAlign.End,
                 color = if (isColorDark(model.color)) Color.White else Color.Black,
@@ -135,7 +156,11 @@ private fun AgendaItemPreview() {
                 time = "Mar 6, 12:00 - 13:00",
                 isDone = false,
                 color = Color(0xFF279F70),
-            )
+            ),
+            onComplete = {},
+            onOpen = {},
+            onEdit = {},
+            onRemove = {}
         )
     }
 }

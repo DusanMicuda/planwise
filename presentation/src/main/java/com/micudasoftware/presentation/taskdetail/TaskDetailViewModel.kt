@@ -27,6 +27,7 @@ import timber.log.Timber
  */
 @HiltViewModel(assistedFactory = TaskDetailViewModel.Factory::class)
 class TaskDetailViewModel @AssistedInject constructor(
+    @Assisted edit: Boolean,
     @Assisted private val taskId: Long?,
     private val navigator: Navigator,
     private val repository: TasksRepository
@@ -37,7 +38,7 @@ class TaskDetailViewModel @AssistedInject constructor(
      */
     @AssistedFactory
     interface Factory {
-        fun create(taskId: Long?): TaskDetailViewModel
+        fun create(taskId: Long?, edit: Boolean): TaskDetailViewModel
     }
 
     private val timber = Timber.tag("TaskDetailViewModel")
@@ -50,7 +51,7 @@ class TaskDetailViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch {
             updateCategories()
-            taskId?.let { loadTask(taskId) }
+            taskId?.let { loadTask(taskId, edit) }
         }
     }
 
@@ -172,7 +173,7 @@ class TaskDetailViewModel @AssistedInject constructor(
      *
      * @param taskId The ID of the task to load.
      */
-    private fun loadTask(taskId: Long) {
+    private fun loadTask(taskId: Long, editable: Boolean = false) {
         viewModelScope.launch {
             val task = repository.getTaskById(taskId)
             if (task == null) {
@@ -189,7 +190,8 @@ class TaskDetailViewModel @AssistedInject constructor(
             _viewState.update {
                 TaskDetailState.fromTask(
                     task,
-                    CategoryModel.fromTaskCategory(category)
+                    CategoryModel.fromTaskCategory(category),
+                    editable
                 )
             }
         }

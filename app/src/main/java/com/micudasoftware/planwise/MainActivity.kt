@@ -12,7 +12,7 @@ import com.micudasoftware.presentation.agenda.screen.AgendaScreen
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaViewModel
 import com.micudasoftware.presentation.categories.CategoriesScreen
 import com.micudasoftware.presentation.categories.CategoriesViewModel
-import com.micudasoftware.presentation.common.collectAsEvent
+import com.micudasoftware.presentation.common.utils.collectAsEvent
 import com.micudasoftware.presentation.common.navigation.Destination
 import com.micudasoftware.presentation.common.navigation.NavEvent
 import com.micudasoftware.presentation.common.navigation.Navigator
@@ -51,9 +51,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable<Destination.TaskDetail> { backStackEntry ->
-                        val taskId = backStackEntry.toRoute<Destination.TaskDetail>().id
+                        val data = backStackEntry.toRoute<Destination.TaskDetail>()
                         val viewModel = hiltViewModel<TaskDetailViewModel, TaskDetailViewModel.Factory> { factory ->
-                            factory.create(taskId)
+                            factory.create(data.id, data.edit)
                         }
                         TaskDetailScreen(
                             viewModel = viewModel,

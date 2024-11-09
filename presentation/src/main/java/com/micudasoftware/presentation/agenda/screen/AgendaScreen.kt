@@ -1,5 +1,6 @@
 package com.micudasoftware.presentation.agenda.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,24 +25,33 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.micudasoftware.presentation.R
 import com.micudasoftware.presentation.common.ComposeViewModel
-import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.agenda.component.AgendaDay
 import com.micudasoftware.presentation.agenda.component.AgendaItem
+import com.micudasoftware.presentation.agenda.component.CircularItemSelectorDialog
 import com.micudasoftware.presentation.agenda.component.DropDownButton
 import com.micudasoftware.presentation.agenda.component.model.AgendaDayModel
 import com.micudasoftware.presentation.agenda.component.model.AgendaItemModel
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaScreenEvent
 import com.micudasoftware.presentation.agenda.viewmodel.AgendaScreenState
+import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.common.navigation.Destination
 import com.micudasoftware.presentation.common.navigation.EmptyNavigator
 import com.micudasoftware.presentation.common.navigation.Navigator
@@ -51,6 +61,7 @@ import com.micudasoftware.presentation.common.theme.PeterRiver
 import com.micudasoftware.presentation.common.theme.PlanWiseTheme
 import com.micudasoftware.presentation.common.theme.SunFlower
 import com.micudasoftware.presentation.common.theme.Turquoise
+import com.micudasoftware.presentation.common.utils.toFormatedFullDate
 import kotlinx.coroutines.launch
 
 /**
@@ -65,6 +76,20 @@ fun AgendaScreen(
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
+    var showMonthSelectorDialog by remember { mutableStateOf(false) }
+    var showYearSelectorDialog by remember { mutableStateOf(false) }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.onEvent(AgendaScreenEvent.Refresh)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -77,15 +102,15 @@ fun AgendaScreen(
             ) {
                 DropDownButton(
                     modifier = Modifier.padding(8.dp),
-                    text = viewState.month,
+                    text = viewState.months.firstOrNull { it.selected }?.name ?: "",
                     textColor = MaterialTheme.colorScheme.onPrimary,
-                    onClick = { /*TODO*/ }
+                    onClick = { showMonthSelectorDialog = true }
                 )
                 DropDownButton(
                     modifier = Modifier.padding(8.dp),
-                    text = viewState.year,
+                    text = viewState.years.firstOrNull { it.selected }?.year.toString(),
                     textColor = MaterialTheme.colorScheme.onPrimary,
-                    onClick = { /*TODO*/ }
+                    onClick = { showYearSelectorDialog = true }
                 )
                 Box(
                     modifier = Modifier.weight(1f),
@@ -133,7 +158,8 @@ fun AgendaScreen(
                 ) {
                     if (viewState.days.isNotEmpty()) {
                         val listState = rememberLazyListState(
-                            initialFirstVisibleItemIndex = viewState.days.firstOrNull { it.selected }?.let { viewState.days.indexOf(it) } ?: 0
+                            initialFirstVisibleItemIndex = viewState.days.firstOrNull { it.selected }
+                                ?.let { viewState.days.indexOf(it) } ?: 0
                         )
                         LazyRow(
                             modifier = Modifier.fillMaxWidth(),
@@ -147,7 +173,7 @@ fun AgendaScreen(
                     }
                     Text(
                         modifier = Modifier.padding(start = 16.dp),
-                        text = "Today",
+                        text = viewState.date.toFormatedFullDate(),
                         style = MaterialTheme.typography.titleMedium,
                     )
                 }
@@ -169,11 +195,60 @@ fun AgendaScreen(
                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 16.dp)
                 ) {
                     items(viewState.tasks) { model ->
-                        AgendaItem(modifier = Modifier.padding(bottom = 10.dp), model = model)
+                        val context = LocalContext.current
+                        val taskName = model.title.ifBlank {
+                            stringResource(R.string.text_unnamed)
+                        }
+                        val toastText = stringResource(R.string.text_task_deleted, taskName)
+                        AgendaItem(
+                            modifier = Modifier.padding(bottom = 10.dp),
+                            model = model,
+                            onComplete = { viewModel.onEvent(AgendaScreenEvent.ChangeDoneState(model.id, it)) },
+                            onOpen = {
+                                coroutineScope.launch {
+                                    navigator.navigateTo(Destination.TaskDetail(model.id))
+                                }
+                            },
+                            onEdit = {
+                                coroutineScope.launch {
+                                    navigator.navigateTo(Destination.TaskDetail(model.id, true))
+                                }
+                            },
+                            onRemove = {
+                                viewModel.onEvent(AgendaScreenEvent.RemoveTask(model.id))
+                                Toast.makeText(context, toastText, Toast.LENGTH_LONG).show()
+                            }
+                        )
                     }
                 }
             }
         }
+    }
+
+    if (showMonthSelectorDialog) {
+        CircularItemSelectorDialog(
+            items = viewState.months,
+            initialItem = viewState.months.firstOrNull { it.selected } ?: viewState.months.first(),
+            title = stringResource(R.string.title_select_month),
+            onConfirm = {
+                viewModel.onEvent(AgendaScreenEvent.SelectMonth(it.value))
+                showMonthSelectorDialog = false
+            },
+            onDismiss = { showMonthSelectorDialog = false }
+        )
+    }
+
+    if (showYearSelectorDialog) {
+        CircularItemSelectorDialog(
+            items = viewState.years,
+            initialItem = viewState.years.firstOrNull { it.selected } ?: viewState.years.first(),
+            title = stringResource(R.string.title_select_year),
+            onConfirm = {
+                viewModel.onEvent(AgendaScreenEvent.SelectYear(it.year))
+                showYearSelectorDialog = false
+            },
+            onDismiss = { showYearSelectorDialog = false }
+        )
     }
 }
 
@@ -207,8 +282,6 @@ private fun AgendaScreenPreview() {
         AgendaScreen(
             viewModel = PreviewViewModel(
                 AgendaScreenState(
-                    month = "November",
-                    year = "2024",
                     days = agendaDaysMock,
                     tasks = agendaItemsMock
                 )
@@ -237,8 +310,6 @@ private fun AgendaScreenEmptyPreview() {
         AgendaScreen(
             viewModel = PreviewViewModel(
                 AgendaScreenState(
-                    month = "November",
-                    year = "2024",
                     days = agendaDaysMock,
                     tasks = emptyList()
                 )

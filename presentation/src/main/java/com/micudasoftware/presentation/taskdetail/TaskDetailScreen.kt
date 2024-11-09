@@ -56,7 +56,7 @@ import com.micudasoftware.presentation.common.PreviewViewModel
 import com.micudasoftware.presentation.common.component.TransparentTextField
 import com.micudasoftware.presentation.common.navigation.EmptyNavigator
 import com.micudasoftware.presentation.common.navigation.Navigator
-import com.micudasoftware.presentation.common.padding
+import com.micudasoftware.presentation.common.utils.padding
 import com.micudasoftware.presentation.taskdetail.components.DateTimeRow
 import com.micudasoftware.presentation.taskdetail.components.ReminderRow
 import com.micudasoftware.presentation.taskdetail.components.model.ReminderModel

@@ -5,7 +5,7 @@ import com.micudasoftware.data.repository.model.Task
 import com.micudasoftware.data.repository.model.TaskCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
+import java.time.OffsetDateTime
 
 /**
  * Implementation of the [TasksRepository] interface.
@@ -19,12 +19,15 @@ internal class TasksRepositoryImpl(
     private val taskDao = tasksDatabase.tasksDao()
     private val taskCategoriesDao = tasksDatabase.taskCategoriesDao()
 
-    override suspend fun saveTask(task: Task) = withContext(Dispatchers.IO) {
-        taskDao.insertTask(task.toEntity())
+    override suspend fun saveTask(task: Task) {
+        withContext(Dispatchers.IO) {
+            taskDao.insertTask(task.toEntity())
+        }
     }
 
-    override suspend fun getTasksForDay(day: LocalDate): List<Task> = withContext(Dispatchers.IO) {
-        taskDao.getTasksForDay(day.toEpochDay()).map { Task.fromEntity(it) }
+    override suspend fun getTasksForDay(day: OffsetDateTime): List<Task> = withContext(Dispatchers.IO) {
+        val millisAtStartOfDay = day.toLocalDate().atStartOfDay().toInstant(day.offset).toEpochMilli()
+        taskDao.getTasksForDay(millisAtStartOfDay).map { Task.fromEntity(it) }
     }
 
     override suspend fun getTaskById(taskId: Long): Task? = withContext(Dispatchers.IO) {
@@ -33,6 +36,10 @@ internal class TasksRepositoryImpl(
 
     override suspend fun deleteTask(task: Task) = withContext(Dispatchers.IO) {
         taskDao.deleteTask(task.toEntity())
+    }
+
+    override suspend fun deleteTaskById(taskId: Long) = withContext(Dispatchers.IO) {
+        taskDao.deleteTaskById(taskId)
     }
 
     override suspend fun saveTaskCategory(taskCategory: TaskCategory) = withContext(Dispatchers.IO) {

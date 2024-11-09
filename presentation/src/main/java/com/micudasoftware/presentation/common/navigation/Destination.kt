@@ -11,7 +11,7 @@ sealed class Destination {
     data object Agenda : Destination()
 
     @Serializable
-    data class TaskDetail(val id: Long? = null) : Destination()
+    data class TaskDetail(val id: Long? = null, val edit: Boolean = false) : Destination()
 
     @Serializable
     data object Categories : Destination()

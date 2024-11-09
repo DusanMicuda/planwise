@@ -1,8 +1,10 @@
 package com.micudasoftware.presentation.taskdetail.components.model
 
+import com.micudasoftware.presentation.common.utils.toFormatedLongDate
+import com.micudasoftware.presentation.common.utils.toFormatedShortDate
+import com.micudasoftware.presentation.common.utils.toFormatedTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import java.time.format.DateTimeFormatter
 
 /**
  * A model class for handling date and time formatting.
@@ -15,19 +17,9 @@ import java.time.format.DateTimeFormatter
 class DateTimeModel(
     val offsetDateTime: OffsetDateTime,
 ) {
-    val formattedDateLong: String
-    val formattedDateShort: String
-    val formattedTime: String
-
-    init {
-        val longDateFormatter = DateTimeFormatter.ofPattern("dd LLLL yyyy")
-        val shortDateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-
-        formattedDateLong = offsetDateTime.format(longDateFormatter).uppercase()
-        formattedDateShort = offsetDateTime.format(shortDateFormatter)
-        formattedTime = offsetDateTime.format(timeFormatter)
-    }
+    val formattedDateLong: String = offsetDateTime.toFormatedLongDate().uppercase()
+    val formattedDateShort: String = offsetDateTime.toFormatedShortDate()
+    val formattedTime: String = offsetDateTime.toFormatedTime()
 
     /**
      * Creates a copy of the current DateTimeModel with a new time.

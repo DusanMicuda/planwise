@@ -6,6 +6,8 @@
     <string name="title_select_color">Vybrať farbu</string>
     <string name="title_select_category">Vybrať kategóriu</string>
     <string name="title_warning">Varovanie</string>
+    <string name="title_select_month">Vybrať mesiac</string>
+    <string name="title_select_year">Vybrať rok</string>
 
     <string name="text_no_categories">Nenašli sa žiadne kategórie</string>
     <string name="text_date_from">Od</string>

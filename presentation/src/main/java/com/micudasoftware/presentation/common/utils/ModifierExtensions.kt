@@ -1,4 +1,4 @@
-package com.micudasoftware.presentation.common
+package com.micudasoftware.presentation.common.utils
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

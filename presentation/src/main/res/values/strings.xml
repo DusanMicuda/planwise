@@ -6,6 +6,8 @@
     <string name="title_select_color">Select color</string>
     <string name="title_select_category">Select category</string>
     <string name="title_warning">Warning</string>
+    <string name="title_select_month">Select month</string>
+    <string name="title_select_year">Select year</string>
 
     <string name="text_no_categories">No categories found</string>
     <string name="text_date_from">From</string>

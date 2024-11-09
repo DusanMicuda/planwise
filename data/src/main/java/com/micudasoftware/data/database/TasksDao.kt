@@ -17,9 +17,10 @@ internal interface TasksDao {
      * If the task already exists, it replaces it.
      *
      * @param task The task to be inserted.
+     * @return The ID of the inserted task.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTask(task: TaskEntity)
+    suspend fun insertTask(task: TaskEntity): Long
 
     /**
      * Retrieves a task by its ID.
@@ -55,4 +56,12 @@ internal interface TasksDao {
      */
     @Delete
     suspend fun deleteTask(task: TaskEntity)
+
+    /**
+     * Deletes a task with given id from the tasks table.
+     *
+     * @param taskId The ID of the task to be deleted.
+     */
+    @Query("DELETE FROM tasks WHERE id = :taskId")
+    suspend fun deleteTaskById(taskId: Long)
 }
