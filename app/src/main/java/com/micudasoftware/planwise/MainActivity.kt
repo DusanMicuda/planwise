@@ -3,6 +3,9 @@ package com.micudasoftware.planwise
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.toArgb
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,6 +35,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PlanWiseTheme {
+                val primaryColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f).toArgb()
+                val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
+                LaunchedEffect(Unit) {
+                    this@MainActivity.window.statusBarColor = primaryColor
+                    this@MainActivity.window.navigationBarColor = backgroundColor
+                }
+
                 val navController = rememberNavController()
                 navigator.navEvent.collectAsEvent { navEvent ->
                     when (navEvent) {
