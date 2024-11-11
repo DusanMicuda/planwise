@@ -10,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -79,6 +83,8 @@ fun AgendaScreen(
     var showMonthSelectorDialog by remember { mutableStateOf(false) }
     var showYearSelectorDialog by remember { mutableStateOf(false) }
 
+    val menuItems = listOf("Categories", "About")
+
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -116,15 +122,34 @@ fun AgendaScreen(
                     modifier = Modifier.weight(1f),
                     contentAlignment = Alignment.CenterEnd
                 ) {
+                    var expanded by remember { mutableStateOf(false) }
                     IconButton(
                         modifier = Modifier.padding(end = 8.dp),
-                        onClick = { /*TODO*/ }
+                        onClick = { expanded = true }
                     ) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
                             tint = MaterialTheme.colorScheme.onPrimary,
                             contentDescription = stringResource(R.string.button_more)
                         )
+                        DropdownMenu(
+                            modifier = Modifier.sizeIn(maxHeight = 300.dp),
+                            expanded = expanded,
+                            scrollState = rememberScrollState(),
+                            onDismissRequest = { expanded = false },
+                        ) {
+                            menuItems.forEach { model ->
+                                DropdownMenuItem(
+                                    text = { Text(text = model) },
+                                    onClick = {
+                                        expanded = false
+                                        coroutineScope.launch {
+                                            navigator.navigateTo(Destination.Categories)
+                                        }
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }

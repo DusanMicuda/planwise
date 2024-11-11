@@ -13,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -135,6 +137,19 @@ fun CategoriesScreen(
         CreateCategoryDialog(
             onConfirm = { viewModel.onEvent(CategoriesEvent.AddCategory(it)) },
             onDismiss = { showCreateCategoryDialog = false }
+        )
+    }
+
+    viewState.alertDialogTextRes?.let { textRes ->
+        AlertDialog(
+            title = { Text(stringResource(R.string.title_warning)) },
+            text = { Text(stringResource(textRes)) },
+            onDismissRequest = { viewModel.onEvent(CategoriesEvent.ConfirmDialog) },
+            confirmButton = {
+                Button(onClick = { viewModel.onEvent(CategoriesEvent.ConfirmDialog) }) {
+                    Text(stringResource(R.string.button_confirm))
+                }
+            },
         )
     }
 }

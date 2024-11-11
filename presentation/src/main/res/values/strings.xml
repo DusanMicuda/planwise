@@ -24,6 +24,7 @@
     <string name="text_end_date_is_before_start_date">End date is before start date.</string>
     <string name="text_task_deleted">Task %s was deleted.</string>
     <string name="text_task_saved">Task %s was saved.</string>
+    <string name="text_category_is_used">This category is used in tasks, you can not delete it.</string>
 
     <string name="button_delete_task">Delete Task</string>
     <string name="button_more">More</string>

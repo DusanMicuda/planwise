@@ -52,7 +52,7 @@ fun CreateCategoryDialog(
     onDismiss: () -> Unit,
 ) {
     var name by rememberSaveable { mutableStateOf("") }
-    var selectedColor by rememberSaveable { mutableIntStateOf(Color.Blue.toArgb()) }
+    var selectedColor by rememberSaveable { mutableIntStateOf(-1) }
     val colors = listOf(
         Turquoise,
         Emerald,
@@ -116,6 +116,7 @@ fun CreateCategoryDialog(
                 }
                 Button(
                     modifier = Modifier.padding(start = 8.dp),
+                    enabled = name.isNotBlank() && selectedColor != -1,
                     onClick = {
                         onConfirm(
                             CategoryModel(

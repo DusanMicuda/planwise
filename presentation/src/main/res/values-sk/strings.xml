@@ -24,6 +24,7 @@
     <string name="text_end_date_is_before_start_date">Koncový dátum je pred začiatočným dátumom.</string>
     <string name="text_task_deleted">Úloha %s bola odstránená.</string>
     <string name="text_task_saved">Task %s was saved.</string>
+    <string name="text_category_is_used">Táto kategória je použitá v úlohách, nemôžete ju odstrániť.</string>
 
     <string name="button_delete_task">Odstrániť úlohu</string>
     <string name="button_more">Viac</string>

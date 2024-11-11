@@ -66,4 +66,19 @@ interface TasksRepository {
      * @param taskCategory The task category to be deleted.
      */
     suspend fun deleteTaskCategory(taskCategory: TaskCategory)
+
+    /**
+     * Deletes a task category by its ID.
+     *
+     * @param taskCategoryId The ID of the task category to delete.
+     */
+    suspend fun deleteTaskCategoryById(taskCategoryId: Long)
+
+    /**
+     * Retrieves tasks for a specific category.
+     *
+     * @param categoryId The ID of the category for which to retrieve tasks.
+     * @return A list of tasks for the specified category.
+     */
+    suspend fun isCategoryUsed(categoryId: Long): Boolean
 }

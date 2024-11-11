@@ -53,4 +53,12 @@ internal class TasksRepositoryImpl(
     override suspend fun deleteTaskCategory(taskCategory: TaskCategory) = withContext(Dispatchers.IO) {
         taskCategoriesDao.deleteTaskCategory(taskCategory.toEntity())
     }
+
+    override suspend fun deleteTaskCategoryById(taskCategoryId: Long) = withContext(Dispatchers.IO) {
+        taskCategoriesDao.deleteTaskCategoryById(taskCategoryId)
+    }
+
+    override suspend fun isCategoryUsed(categoryId: Long): Boolean = withContext(Dispatchers.IO) {
+        taskCategoriesDao.isCategoryUsed(categoryId)
+    }
 }

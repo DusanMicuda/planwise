@@ -43,4 +43,23 @@ internal interface TaskCategoriesDao {
      */
     @Delete
     fun deleteTaskCategory(taskCategoryEntity: TaskCategoryEntity)
+
+    /**
+     * Deletes a task category by its ID.
+     *
+     * @param taskCategoryId The ID of the task category to delete.
+     */
+    @Query("DELETE FROM task_categories WHERE id = :taskCategoryId")
+    fun deleteTaskCategoryById(taskCategoryId: Long) {
+        getTaskCategoryById(taskCategoryId)?.let { deleteTaskCategory(it) }
+    }
+
+    /**
+     * Checks if a category is used in any task.
+     *
+     * @param categoryId The ID of the category to check.
+     * @return True if the category is used in any task, false otherwise.
+     */
+    @Query("SELECT EXISTS(SELECT 1 FROM tasks WHERE categoryId = :categoryId)")
+    fun isCategoryUsed(categoryId: Long): Boolean
 }
