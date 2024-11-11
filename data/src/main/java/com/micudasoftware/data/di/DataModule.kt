@@ -25,5 +25,5 @@ class DataModule {
 
     @Provides
     internal fun provideTasksRepository(tasksDatabase: TasksDatabase): TasksRepository =
-        TasksRepositoryImpl(tasksDatabase)
+        TasksRepositoryImpl(tasksDatabase.tasksDao(), tasksDatabase.taskCategoriesDao())
 }
